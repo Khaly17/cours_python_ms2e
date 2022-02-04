@@ -1,0 +1,15 @@
+:tocdepth: 2
+
+.. _week1:
+           
+************
+Week 1
+************
+
+.. toctree::
+
+   basic_ops
+   comm_str_print
+   modules
+   helpfiles
+   boolean_if

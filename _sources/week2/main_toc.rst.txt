@@ -1,0 +1,12 @@
+:tocdepth: 2
+
+.. _week2:
+           
+************
+Week 2
+************
+
+.. toctree::
+
+   arrays
+   loop_for

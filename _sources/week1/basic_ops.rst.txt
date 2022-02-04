@@ -1,0 +1,623 @@
+:tocdepth: 2
+
+.. _week1_basic_ops:
+
+Basic operations
+================
+
+.. contents:: :local:
+
+.. highlight:: python
+
+.. note:: Here and throughout, all commands in the light-green fields
+          can be copied+pasted in a terminal where the ipython
+          environment is running.  Readers are encouraged to follow
+          along, and to ponder what the results should be in each case
+          before running in an ``ipython`` environment or Jupyter
+          Notebook.
+
+Python as a calculator
+----------------------
+
+At its most basic Python can be used as a calculator, performing
+basic mathematical operations, such as::
+
+  4+8
+  217.81 * 3
+  18 * ( 29182 - 9382)
+  -305.8 / 21.1
+
+etc.  Note that the spacing between the numbers and the operators does
+not matter to the Python interpreter; however, it *is* important to
+make the code readable to humans, so one should try to be consistent
+in form.
+
+Mathematical order of operations is maintained within the context of
+evaluating expressions within parentheses first, and also evaluating
+multiplication and division before addition and subtraction.  However,
+the Python interpreter may not necessarily evaluate a set of
+multiplications/divisions from left to right.  We will see why this
+might matter shortly.
+
+Python comes with many basic operations that we might expect: ``+, -,
+/, *``, as well as parentheses ``(...)``.  Additional operators
+include:
+
+* raising to a power with ``**``, so that ``5**2`` raises squares
+  five, returning 25;  fractional and negative powers may be used
+
+* taking the modulus (i.e., finding the remainder of division) with
+  ``%``, so that ``5 % 3`` returns the remainder of dividing five by
+  three, returning 2.
+
+Think about the results of each of the following, and then evaluate in
+Python::
+
+  3**2
+  -3**2
+  10**5
+  9**0.5
+  4**(-0.5)
+  5 % 2
+  25 % 5
+  5 % 25
+
+Consider the result of simple division: ``2.0/3.0``.  What is the
+result?  Well, in mathematics it would be 0.66666666... with an
+infinite number of decimal places.  However, the computer has finite
+disk space and finite memory.  In general, we cannot expect the
+computer to have an exact representation of such numbers, nor of
+irrational (:math:`\sqrt{2}`, :math:`7^{1/3}`) and transcendental
+numbers (:math:`\pi`, Euler's *e*, etc.).  
+
+.. asdf
+   Furthermore, in many
+   regards we should treat carefully the idea of "exactness" with any
+   decimal value resulting from calculations, and treat such numbers as
+   approximate in essentially all cases.
+
+   add in about the 5e-7, etc. notation ("e" in this context is "x10^"
+
+Type
+####
+
+One question that might be asked is: what is the difference (if any)
+in Python between the following calculations:
+
+.. code-block:: python
+
+   3 * 4
+   3.0 * 4.0
+
+The answer to the first is ``12``, and the answer to the second is
+``12.0``.  While these numbers have the same **value**, they do have
+an important difference: the first is an integer, and the second is
+a (rational) real number.
+
+In many applications we may take for granted the mathematical sets
+that numbers belong to, like integer (:math:`\mathbb{Z}`) or real
+(:math:`\mathbb{R}`).  However, for programs *every* quantity and
+object has a defined category (even non-mathematical objects), and
+this fundamental property is called its **type**. There is a built-in
+function in Python called ``type()``, and using it we can see that:
+``type(12)`` is called "int", and ``type(12.0)`` is "float".
+
+When performing calculations, we must consider *both* value and type
+of the quantities involved. There are several types corresponding to
+familiar number sets from mathematics.  In many cases the names are
+similar, and when programming we should use the computational name for
+clarity. There are some further considerations that must be made,
+since computers are finite and cannot contain arbitrarily large
+values.  Below are some examples of numerical types:
+
+  .. list-table::
+     :header-rows: 1
+     :widths: 35 15 50
+
+     * - Math set
+       - Comp type
+       - examples
+     * - Booleans
+       - **bool**
+       - ``False``, ``True`` (and only these!); or respectively:
+         0, 1
+     * - Integers (:math:`\mathbb{Z}`)
+       - **int**
+       - 0, 21, -1000
+     * - Real numbers (:math:`\mathbb{R}`)
+       - **float**
+       - 0., 21.32138, -1000.312
+     * - Complex numbers (:math:`\mathbb{C}`)
+       - **complex**
+       - 0+0j, -3+2.4j, 400.5-1j
+
+.. note to self:
+
+   in Py3, "long" is "long gone"; don't need
+     * - Integers (:math:`\mathbb{Z}`), up to arbitrary size (computer
+         memory!) 
+       - **long**
+       - 0, :math:`2\times10^{19}`, :math:`-3\times10^{21}` 
+
+
+.. NTS:
+
+   ----> is the following paragraph relevant/correct any more?  with
+    flexible float/int, I don't think this discussion space-per-type
+    is relevant.
+
+.. NTS:
+
+   put in method to extract real and complex parts from complex vals:
+   C.real and C.imag
+
+While the "type" property is analogous to the mathematical number set
+designation, type is also closely related to purely computational
+features.  For example, anything stored on a computer must occupy an
+amount of hard disk or memory space, and each "type" has a certain
+amount of space allocated.  Once a type is known, the correct amount
+of space is allocated to fit a value.  (If the program tries to store
+a value too large for the type's allocated space, an "overflow" error
+occurs.)
+
+.. NTS
+
+   here and in table:  python3 no longer uses "long":  int is flexible
+
+    Note the multiple types of integer-like quantities.  In many cases,
+    simple ints are large enough for quantities.  However, if the value
+    does grow too large for int, Python will automatically switch over to
+    storing with a long, and can store an integer up to the amount of
+    computer memory available (wow!).  This auto-switch behavior is *not*
+    general to programming in other languages, where programmers must
+    typically know the maximum size of numbers to expect to store; we
+    highly recommend that programmers also keep track of this in Python--
+    having approximate ideas of what the code *should* be doing is really
+    useful to finding+fixing bugs.  Python 3 will also have different
+    behavior-- it just has the int type, which can be as large as it
+    needs.  We will see some other variety of ints and floats based on
+    number size/computer space through the numpy module, and we will also
+    meet some other, non-numerical types below, as well.
+
+When performing operations, what determines the type of the result?
+In Python, it is generally the inputs (and occasionally the operator).
+If all ints are used in an expression, the output is typically an int,
+and similarly for floats, etc., as above.  
+
+What happens when types are mixed?  Evaluating ``3.0 * 4`` yields
+``12.0``, a float. Here, Python is performing ``type conversion``:
+when mixing types in an expression, the result will be of the "most
+general" type.  In this example, the more general type is floats (in
+the sense that int values are a subset within floats).
+
+Type conversion can be performed explicitly on a quantity using
+functions named after a given type.  For example, ``float(3)`` yields
+``3.0``, and ``int(3.4)`` yields ``3``. The ``bool()`` output from any
+quantity that is nonzero will be ``True``, and ``False`` for exactly
+zero.  The complex type can be a bit tricky to deal with:
+``complex(-1.0)`` yields ``(-1+0j)``, but ``float(-1+0j)`` yields an
+error; it is not a well-defined mathematical operation, and instead
+one would have to convert just the real or imaginary parts of the
+complex number.  However, ``bool(-1+0j)`` *is* still defined-- it is
+``True`` because the complex number here is non-zero.
+
+.. note
+
+   add examples:  27**-1./3., have user fix
+                  1/4
+                 False * True, False and True, False or True, ... well, logic sec
+                 order of operations:  copmlex nums, parenth
+   add functions to do type conversion
+   
+
+Assignment and variables
+------------------------
+
+The calculator functionality described above is useful at times, but
+it is not *really* programming, since we cannot combine results of
+different calculations and build on previous results, as values aren't
+saved.
+
+We now take a large step toward real programming by introducing
+Python's **assignment operator** "=".  Thus, with::
+
+  x = 4 + 8
+
+we will have the result of a calculation (``12``) stored, which we can
+access any time later by referring to ``x``.  For example::
+
+  x = 4 + 8
+  y = 10**3
+  z = x*x - 10*y
+
+The "=" in this context does *not* express mathematical equivalence (a
+passive statement that is true or false, just expressing equality). We
+*cannot* treat it like an alebraic expression and try rearrange the left
+hand side (LHS) and right hand side (RHS) to be something like::
+
+  x - 4 = 8
+
+or anything like that (try it, Python will produce an
+error). 
+
+This operator "=" is an *action*, providing a reference label to a
+value that is stored on the computer.  In line with this concept, one
+can read it more like "*x* is defined to be ...", or "*x* is set to
+....", or "Let *x* be ...", etc.  As such, every quantity on the RHS
+must be known and have a value already. Therefore, if ``c`` has not
+been assigned a value previously, then::
+    
+  d = c*c - 10
+  c = 4 + 8
+
+will produce an error when evaluating the first line.  Consider the
+expression::
+
+  y = 3*x + 4.5
+
+This is *not* a general relation, like the formula for a straight line
+in mathematics.  This is a single instance, and a specific value for
+"x" must have been defined previously. (The way to write a general
+relation like the equation of a line is done by defining a function,
+discussed later).
+
+There is a careful ordering to how Python treats lines with the
+assignment operator:
+
+#. evaluate the RHS (if any term there has not been previously
+   defined, an error occurs)
+
+#. store the resulting value at some location on the computer (in an
+   appropriate-sized space, based on the final type)
+
+#. take the label the LHS and associate it with that location, so
+   whenever that label occurs in an expression, Python will go the
+   correct location and get the desired value.
+
+The variable on the LHS of the assignment operator is, well,
+*variable*, and its value (and/or type, in Python) can be changed
+simply by assigning it to a new value at some point.  So, at the end
+of these lines::
+  
+  x = 10
+  x = -11.4
+  x = False
+
+there is still only one variable *x*, and it refers to a quantity of
+type "bool" and value "False".
+
+The Python command ``whos`` is a useful way to see what variables have
+been defined in a Python environment.  It provides a list of the
+variable names, their values, their type and other properties.
+
+.. notes to add in
+
+   In some programming languages (such as C), every variable must be
+   given a type explicitly before use, a process called **declaration**.
+   This basically sets out the storage space for a variable ahead of
+   time, and a value can be filled in either then or afterwards.
+   However, in Python this is not necessary-- the type of a variable is
+   determined automatically when a value is assigned to is. Consider one
+   example from above::
+     
+     x = 4 + 8
+  
+
+   3e-4 notation.... x10**...
+
+Variable names
+--------------
+
+There are some rules for variable names to keep in mind:
+
+* They must be made up only of *alphanumeric* characters (``a-z``,
+  ``A-Z``, ``0-9``) and the underscore character ``_``.
+
+* The variable cannot *start* with a number, but the number may appear
+  anywhere else.
+
+* *Un*\usable characters: Special character such as ``\, $, %, !,``
+  etc. can\ not* be used, nor can commas ``,``, periods ``.`` or
+  dashes ``-``, as those all have special other meanings.  Spaces 
+  `` `` cannot be used, as those separate different words.
+
+* A variable name *cannot* be a reserved word or a key word (such as
+  ``for``, ``if``, ``def``, etc.).  It also *should not* be word with
+  special meaning (``int``, ``True``, ``type``, etc.) because the
+  functionality of those original meanings should be maintained.
+
+* Variables are case sensitive (indeed, all words in Python are).
+  That is, Python distinguishes between upper and lower case, so that
+  ``Age``, ``age`` and ``aGe`` are three different variables.
+
+Please do remember to make meaningful variable names.  For example, we
+emphasize here translating mathematics/physics/etc. from paper
+calculations to programs.  Therefore, you should employ the same
+variable names and notations that you have written down to the program
+you are writing.  For example, if writing the formula "distance equals
+velocity times time", you should probably make use of the standard
+variables::
+
+  d = v * t
+
+or perhaps more interpretable, but succinct, names::
+
+  dist = vel * time
+
+Half (or more!)  of the art of programming is to make the code itself
+as readable and understandable as possible.  This makes the program
+simpler to check by eye while writing and more directly editable at
+future times.  It also greatly reduces the numbers of bugs or errors
+in the code.
+
+.. _basic_types:
+
+Basic math types
+----------------
+
+The values stored on a computer take up physical space, in units of
+*bytes* (= 8 bits; each bit is essentially one place in a binary
+number).  How much space is set aside for a given quantity depends on
+what is being stored, which is known as **type**.  The type of a
+quantity must always known in order to store it.
+
+
+In some programming languages (such as C), every variable must be
+given a type explicitly before use, a process called **declaration**.
+This basically sets out the storage space for a variable ahead of
+time, and a value can be filled in either then or afterwards.
+However, in Python this is not necessary-- the type of a variable is
+determined automatically when a value is assigned to is. Consider one
+example from above::
+
+  x = 4 + 8
+
+Here, 4 and 8 are both ints, so their sum is an int, and therefore
+``x`` gets the type int (along with the value 12).  We can investigate
+the type of any numerical object or variable in Python using the
+type() function::
+
+  type(x)
+  type(45.7)
+  type(103 - 32)
+
+What happens if we add an int and a float, such as::
+
+  x = 4 + 5.1
+
+?  Well, check on your own computer, but the answer should be 9.1 and
+the type should be float.  Python will "choose" the type where
+information does not get lost.
+
+Re. calcs with ints
+###################
+
+We saw above that the following kind of operation resulted in x being
+itself an int::
+  
+  x = 2 + 5
+
+What should happen here::
+
+  x = 2 / 5
+
+? Mathematically, we might expect to get 0.4, and in Python 3.\*, even
+though it breaks the rule of returning a value of the same type, that
+is what happens.  **Sidenote**: *this is* not *the case in Python 2.7.
+Since the numerator and denominator are both int, the result is also
+int (in this case 0), and the operation performed is called* **integer
+division**.  *This is also the way that the C language would evaluate
+this result.*
+
+.. NTS: following not need, probably, or just part:
+
+   However, this subtlety with division can sometimes lead to the
+   presence of bugs in a code, and often ones that are tricky to find.
+   For some people, it is so bothersome that they have decided to do away
+   with this behavior. *This has resulted in a major difference in
+   behavior in Python 3, where the "\/" operator will return floats, even
+   when the numerator and denominator are both ints.*
+
+There is also explicitly an integer division operator "\/\/", which
+exists in both Python 2.\* and Python 3.\*. It will always perform
+integer division, regardless of the values used.  Note that if a float
+is present in the operation, integer division is first performed and
+then a float-ized version of the result is returned.  For
+compatability between Python 2.\* and Python 3.\*, and also for
+avoiding possible confusion in one's own code, **one should only use
+the explicit operator "\/\/" for integer division.**
+
+
+Re. calcs with floats
+#####################
+
+There are some caveats to keep in mind when using floats.  Firstly,
+consider the result of::
+
+  5. / 3
+
+Mathematically, we would expect "five divided by three" (in the real
+numbers) to yield :math:`1.6\bar{6}`, which trails on forever.
+However, we can't store an infinite number of values, and the result
+is truncated to the default precision of floats (around
+:math:`10^{-16}`). This leads to floating point error in the result,
+and means that with computers, we can often only have finite
+approximations to what might be infinitely-precise mathematical
+results-- an important difference!
+
+Secondly, floating point error may also appear in other, perhaps
+unlikely, places.  The "\%" operator returns the remainder of
+division.  With integers, we might get expected results, from say::
+  
+  5 % 2
+  9 % 3
+  21 % 6
+
+However, what about::
+  
+  5.2 % 2
+  (5.2 % 2) - 1.2
+
+?  On my system at least, the answer to the first comes up as
+1.2000000000000002 and the second as 2.220446049250313e-16; it might be
+slightly different on yours, but the main feature is that it might not
+be exactly the analytical result of "1.2".  (If you *don't* have a lot
+of decimal places in your result, fine, but there are analogous
+examples of where this would happen on your computer-- and that is
+just the point, that this floating point precision error is not
+predictable in general.) Having a result in the second line that is
+*nearly* zero may be OK for some calculations, but might be
+catastrophic for others (say, if the result is multiplied by
+:math:`10^{20}`, and the result is far from zero for further
+calculations).  This all emphasizes the general points that:
+
+i. **floating point results may have small precision errors, making
+   tests of exact equality difficult if not impossible with floats;**
+
+#. **differences involving the results of floating point arithmetic
+   may lead to tiny rounding errors instead of an exact zero, which
+   may lead to problems in further calculations.**  
+
+Computers are useful, but they must be used with care!
+
+Practice 1
+##########
+
+First come up with what you think the answer *should* be, and then
+check the result using an ipython terminal:
+
+i. What are the types of each of the following?
+
+   .. code-block:: python
+      :linenos:
+
+      -1
+      20.00001
+      10**19
+      10**19 - 10**19
+      1 + 0j
+      1
+      False
+
+#. What are the values (and types-- difficult properties to separate
+   in some cases!) of the following?::
+
+     2 + True
+     4.5 - 3
+     4.5 / 3
+     5 + 3
+     5 / 3
+     5 / 3.
+     5 // 3.
+     5 + 5.j / 3
+     5 + 5.j // 3
+     4.7 % 3
+     
+#. What are the results (type and value) of the following?  (And does
+   each make sense?)
+
+   a. Q::
+        
+        x = 15
+        y = x // 4
+        z = 3. * y
+
+   #. Q::
+        
+        False * True
+        False and True
+
+   #. Q::
+        
+        a = float( 3 // 5 )
+
+   #. Q::
+        
+        cval = 5 + 4j
+        val1 = 5 + 4j * 5 + 4j
+        val2 = cval * cval
+
+   
+Practice, 2
+###########
+
+The following can be done in a Jupyter Notebook, with each question in
+a separate cell (so they can be re-run and tested).
+
+1. Fix this to produce the cube root of 27 (hint: enforce correct
+   orders of operations!)::
+
+     27**1/3
+
+#. Finding+fixing troubles is part of programming. Run the following
+   and see the error message, and fix the problem assignment
+   operation::
+
+     5squared = 5**2
+
+#. Evaluate the square of the complex number ``5+3j``.  
+
+#. Fix the following::
+
+     print("Hello')
+
+#. Fix the following::
+
+     x = 3
+     if x > 25
+         print("This number is big!")
+
+#. Fix the following::
+
+     x = 3
+     if x > 25
+         print("This number is big!")
+         else:
+             print("This number is small!")
+
+#. How many print statements get evaluated?::
+
+     x = 3
+     if x > 25:
+         print("This number is big!")
+         print("Where did you find it?")
+     print(x)
+
+#. How many print statements get evaluated?::
+
+     x = 3
+     if x > 25:
+         print("This number is big!")
+     elif x < 10:
+         print("This number is small!")
+     print(x)
+
+#. Write an ``if`` condition to check if a variable called ``test1``
+   is greater than 5.  If it is, print "Congratulations".
+
+#. Write an ``if`` condition to check if a variable called ``test2``
+   is odd.  If it is, print "I found an odd number"; otherwise,
+   print "I found an even number".
+
+#. Write an ``if`` condition to check if a variable called ``test3``
+   is *not* an int.  If it is not, then print "Fancy number".
+   Otherwise, do nothing.
+
+#. Write an ``if`` condition to check if a variable called ``test4``
+   is in the interval ``[-3, 3]``.  If it is, print "Small number!".
+   If it outside that range but in the range ``[-10, 10]``, print
+   "Medium number!"; and if it is outside of that range, print "Big
+   number!"
+
+#. Write an ``if`` condition to check if a variable called ``test5``
+   is complex or a float.  If it is complex, print "I found a complex
+   number"; if it is a float, print "I found a float"; otherwise,
+   print "Oh well".
+
+#. Write an ``if`` condition to check if a variable called ``test6``
+   is a negative integer.  If it *is*, multiply it by ``-3`` and see
+   if the result is a multiple of 9; if *that* is, then print "hello,
+   my friend".  In any other case, print "Oh, no, not you".
+
+
+

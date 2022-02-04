@@ -1,0 +1,643 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>3.1. Arrays &#8212; Master MS2E Python 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/cloud.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans|Noticia+Text|Open+Sans|Droid+Sans+Mono|Roboto" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../_static/cloud.base.js"></script>
+    <script type="text/javascript" src="../_static/cloud.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.2. Loops: for" href="loop_for.html" />
+    <link rel="prev" title="3. Week 2" href="main_toc.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="loop_for.html" title="3.2. Loops: for"
+             accesskey="N">next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="main_toc.html" title="3. Week 2"
+             accesskey="P">previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Master MS2E Python 0.1 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="main_toc.html" accesskey="U">3. Week 2</a> &#187;</li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="arrays">
+<span id="week2-arrays"></span><h1>3.1. Arrays<a class="headerlink" href="#arrays" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#translating-vectors-and-matrices-to-arrays" id="id1">Translating Vectors and Matrices to Arrays</a></li>
+<li><a class="reference internal" href="#creating-arrays" id="id2">Creating arrays</a><ul>
+<li><a class="reference internal" href="#np-array-arrays-with-all-known-values" id="id3"><code class="docutils literal"><span class="pre">np.array</span></code>: Arrays with all known values</a></li>
+<li><a class="reference internal" href="#np-arange-and-np-linspace-evenly-spaced-arrays" id="id4"><code class="docutils literal"><span class="pre">np.arange</span></code> and <code class="docutils literal"><span class="pre">np.linspace</span></code>: Evenly spaced arrays</a></li>
+<li><a class="reference internal" href="#np-zeros-and-np-ones-initialize-arrays-with-zeros-or-ones" id="id5"><code class="docutils literal"><span class="pre">np.zeros</span></code> (and <code class="docutils literal"><span class="pre">np.ones</span></code>): Initialize arrays with zeros (or ones)</a></li>
+<li><a class="reference internal" href="#generalizing-arrays-with-formulas-intro" id="id6">Generalizing: arrays with formulas (intro)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#practice-1" id="id7">Practice 1</a></li>
+</ul>
+</div>
+<div class="section" id="translating-vectors-and-matrices-to-arrays">
+<h2><a class="toc-backref" href="#id1">3.1.1. Translating Vectors and Matrices to Arrays</a><a class="headerlink" href="#translating-vectors-and-matrices-to-arrays" title="Permalink to this headline">¶</a></h2>
+<p>Up to this point, we have discussed storing one value at a time in a
+variable, translating scalar quantities to computational types like
+int, float, bool and complex.  What about when we have algebraic
+things like vectors and matrices?</p>
+<p>Consider an example case of a velocity vector, which might be written
+in a physics textbook as:</p>
+<blockquote>
+<div><img class="math" src="../_images/math/2210ccc227d95132131256fc561f9e88167dcc41.svg" alt="\displaystyle \textbf{v}  = ( v_x, v_y, v_z )"/></div></blockquote>
+<p>Sometimes different sets of indices are used, and this could also be
+written using a common, and slightly more general, mathematical
+notation as either:</p>
+<blockquote>
+<div><img class="math" src="../_images/math/589d44daf10824643c44e5bb78838d5681f1e0b5.svg" alt="\displaystyle \textbf{v} = ( v_1, v_2, v_3 )~~~~~~{\rm
+or}~~~~~~\textbf{v} = ( v_0, v_1, v_2 )"/></div></blockquote>
+<p>In each case, the <em>i</em>th component is referenced as <img class="math" src="../_images/math/fb3c41a9a30bddef43f2e990beafe42151ccc93b.svg" alt="v_i"/>, with
+allowed values of <em>i</em> determined by the length of the vector.</p>
+<p>When we translate this to Python, we have all the same parts, but some
+have slightly different names and we use just one, particular syntax.</p>
+<p>The above vector <img class="math" src="../_images/math/dcdd3293949504442213e0c0b12b567476f416c9.svg" alt="\textbf{v}"/> is stored as an <strong>array</strong> <code class="docutils literal"><span class="pre">v</span></code>;
+there is no bold font or arrow we can use to denote it as a vector, we
+just have to remember it or perhaps reflect it in the variable
+name. Instead of “components”, we refer to <strong>elements</strong> of <code class="docutils literal"><span class="pre">v</span></code>, which
+would be accessed as:</p>
+<blockquote>
+<div><code class="docutils literal"><span class="pre">v[0],</span> <span class="pre">v[1],</span> <span class="pre">v[2]</span></code>.</div></blockquote>
+<p>We still refer to <strong>indices</strong>, but since we don’t have subscripts, we
+put them in square brackets.  The indices are always numbers, counting
+from zero, which is called <strong>zero-based counting</strong>.  (Note that
+different programming languages have different counting systems; C and
+C++ use zero-based counting, while Fortran, R and Matlab count from
+one.)</p>
+<p>The index notation carries directly to mathematical matrices.  In
+computing, these are just referred to as multidimensional arrays, or
+more commonly just “arrays (in actual fact, a multidimensional array
+is just an array whose elements are also arrays, an “array of arrays”,
+but that normally is not relevant when using them). All the above
+notations and terms apply.  Matrices typically have multiple
+dimensions and therefore multiple indices; these also translate
+directly from subscripts in the mathematics to square brackets in
+computing.  For example, the element in the first row and column of a
+2-dimensional matrix <img class="math" src="../_images/math/1b009ec88d176a0e31309bf4a536fcdeedb9f38e.svg" alt="\mathbf{A}"/> would be <code class="docutils literal"><span class="pre">A[0,</span> <span class="pre">0]</span></code>; the next
+element in the column would be <code class="docutils literal"><span class="pre">A[1,</span> <span class="pre">0]</span></code>; etc.</p>
+<p>The following table summarizes the translation from mathematical
+vectors to computational arrays:</p>
+<blockquote>
+<div><table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="42%" />
+<col width="8%" />
+<col width="50%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Math name</th>
+<th class="head"><img class="math" src="../_images/math/db2555e54bec0d091b2124dccd645c2d7ddaae68.svg" alt="\rightarrow"/></th>
+<th class="head">Comp name</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>vector</td>
+<td><img class="math" src="../_images/math/db2555e54bec0d091b2124dccd645c2d7ddaae68.svg" alt="\rightarrow"/></td>
+<td>array</td>
+</tr>
+<tr class="row-odd"><td>component</td>
+<td><img class="math" src="../_images/math/db2555e54bec0d091b2124dccd645c2d7ddaae68.svg" alt="\rightarrow"/></td>
+<td>element</td>
+</tr>
+<tr class="row-even"><td>index</td>
+<td><img class="math" src="../_images/math/db2555e54bec0d091b2124dccd645c2d7ddaae68.svg" alt="\rightarrow"/></td>
+<td>index</td>
+</tr>
+<tr class="row-odd"><td>subscript</td>
+<td><img class="math" src="../_images/math/db2555e54bec0d091b2124dccd645c2d7ddaae68.svg" alt="\rightarrow"/></td>
+<td>square bracket, <code class="docutils literal"><span class="pre">[</span> <span class="pre">]</span></code></td>
+</tr>
+<tr class="row-even"><td><em>example:</em> <img class="math" src="../_images/math/4ffd92f4227da70f6ad15769619c5e482419921d.svg" alt="~~\displaystyle x_0"/></td>
+<td><img class="math" src="../_images/math/db2555e54bec0d091b2124dccd645c2d7ddaae68.svg" alt="\rightarrow"/></td>
+<td><code class="docutils literal"><span class="pre">x[0]</span></code></td>
+</tr>
+<tr class="row-odd"><td><em>example:</em> <img class="math" src="../_images/math/25021a78eee82d036c359906ccbced237718b708.svg" alt="~~\displaystyle M_{0,4}"/></td>
+<td><img class="math" src="../_images/math/db2555e54bec0d091b2124dccd645c2d7ddaae68.svg" alt="\rightarrow"/></td>
+<td><code class="docutils literal"><span class="pre">M[0,4]</span></code></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<p>Thus, the array notation closely follows that of the
+mathematics/physics communities, with some small notational
+differences.  And, importantly, much of the <em>mathematics</em> for
+computing with vectors will also translate directly into programs, as
+well.</p>
+</div>
+<div class="section" id="creating-arrays">
+<span id="week2-arrays-creating"></span><h2><a class="toc-backref" href="#id2">3.1.2. Creating arrays</a><a class="headerlink" href="#creating-arrays" title="Permalink to this headline">¶</a></h2>
+<p>There are many ways to assign values to arrays in Python.  In each
+case, when we create an array we need its define:</p>
+<ol class="arabic simple">
+<li>the <strong>length</strong> or <strong>shape</strong> (dimensions),</li>
+<li>the type of its elements, and</li>
+<li>initial values for all the elements, which may be altered later.
+This is called <strong>initialization</strong>.</li>
+</ol>
+<p>Note that <em>all</em> elements of an array are of a single type (i.e., one
+cannot mix floats and ints in an array); and to distinguish the issue
+of element type from the array’s own type, the former’s type is
+referring to as a <strong>datatype</strong> (or <strong>dtype</strong>, an abbreviation often
+used in helpfiles).</p>
+<p>The need to define both dimensions and element types matches both</p>
+<ul>
+<li><p class="first">formal mathematical correctness, such as stating:</p>
+<p><img class="math" src="../_images/math/b579123f8e8e97da0bd1f8254023266ccecb5455.svg" alt="\textbf{v} \in \mathbb{R}^4"/>; that is, <strong>v</strong> a vector
+contains 4 real numbers,</p>
+<p><img class="math" src="../_images/math/49ca976d44310499f4032f485314db4822702340.svg" alt="\textbf{g} \in \mathbb{R}^{4\times4}"/>; that is, <strong>g</strong> is a
+4-by-4 matrix of real numbers,</p>
+<p><img class="math" src="../_images/math/99ffc37d4fe2490141a6404f8129e335d187ad08.svg" alt="\textbf{c} \in \mathbb{C}^{2\times3}"/>; that is, <strong>c</strong> is a
+2-by-3 matrix of complex numbers,</p>
+<p>etc.</p>
+</li>
+<li><p class="first">and computational space requirements, so Python knows how much space
+to allocate (dimensionality determines number of total spots,
+and element datatype determines the size of each).</p>
+</li>
+</ul>
+<p>Here and below, whenever using arrays, we will be importing NumPy,
+which contains most of the functions we will use.</p>
+<div class="section" id="np-array-arrays-with-all-known-values">
+<h3><a class="toc-backref" href="#id3"><code class="docutils literal"><span class="pre">np.array</span></code>: Arrays with all known values</a><a class="headerlink" href="#np-array-arrays-with-all-known-values" title="Permalink to this headline">¶</a></h3>
+<p>Most basically, one can make an array directly using the
+<code class="docutils literal"><span class="pre">np.array()</span></code> function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+<span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p><code class="docutils literal"><span class="pre">v</span></code> contains three elements, and that the [0]th value is 4 (as
+expected).  We can also verify the type of both <code class="docutils literal"><span class="pre">v</span></code> and its
+elements (checking just one is enough, since all elements have the
+same dtype):</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">&quot;type of v:&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;type of an element of v:&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>As we entered all integer values, the dtype of the elements is an
+integer, which is called <code class="docutils literal"><span class="pre">int64</span></code> in NumPy; the “64” refers to the
+number of bits used to store each value.</p>
+<p>The other fundamental property of any array, as mentioned above, is
+its length or shape.  For this 1D array, we get all the information
+needed from Python’s “len()” function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">&quot;Length of v is:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>If we wish to change any value in the array, that is done simply by
+assigning a new value there.  For example, after:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">100</span>
+</pre></div>
+</div>
+<p>printing <code class="docutils literal"><span class="pre">v</span></code> yields:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[</span>   <span class="mi">4</span> <span class="o">-</span><span class="mi">100</span>    <span class="mi">6</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>If we try inputting a float value like this, Python will convert it
+to an int, because arrays only contain one type.  Thus:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">v</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mf">99.9999</span>
+</pre></div>
+</div>
+<p>printing <code class="docutils literal"><span class="pre">v</span></code> yields:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[</span>   <span class="mi">4</span> <span class="o">-</span><span class="mi">100</span>   <span class="mi">99</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>One can make 2D (or higher dimensional) arrays in a similar way,
+explicitly stating each element one-by-one.  For example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">sigma2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1j</span><span class="p">],</span> <span class="p">[</span><span class="mi">1j</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>(Firstly, comparing the use of square brackets with the 1D examples
+above might explain why multidimensional arrays are called “arrays
+of arrays”.)  In this case the entered numbers appear to be from
+different sets (complex and integer), but as noted above, arrays
+have only a single dtype.  <code class="docutils literal"><span class="pre">type(sigma2[0,</span> <span class="pre">0])</span></code> shows that the
+chosen type is <code class="docutils literal"><span class="pre">complex</span></code>, the more “complicated” of the
+types. This is verified by checking the value of <code class="docutils literal"><span class="pre">sigma2[0,0]</span></code>,
+which is <code class="docutils literal"><span class="pre">0.+0.j</span></code>.</p>
+<p>To check the dimensions of the array, we can use NumPy’s “shape()”
+function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s2">&quot;The shape of sigma2 is:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">sigma2</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Note that when np.shape() returns the shape of a multidimensional
+array, it does so as a collection of numbers in parentheses.  This
+is actually a new Python type that will be discussed later, but it
+is a good to think of the several numbers describing shape– e.g.,
+here, <code class="docutils literal"><span class="pre">(2,</span> <span class="pre">2)</span></code>– as a single object.  As knowing the shape of an
+array is a key part of using it, we will make much use of this
+function (and of “len()”, which always returns a single value int).</p>
+</div>
+<div class="section" id="np-arange-and-np-linspace-evenly-spaced-arrays">
+<span id="week2-arrays-arange-linspace"></span><h3><a class="toc-backref" href="#id4"><code class="docutils literal"><span class="pre">np.arange</span></code> and <code class="docutils literal"><span class="pre">np.linspace</span></code>: Evenly spaced arrays</a><a class="headerlink" href="#np-arange-and-np-linspace-evenly-spaced-arrays" title="Permalink to this headline">¶</a></h3>
+<p>One useful family of arrays is 1D arrays with evenly spaced
+elements.  For example, when making plots, we might want evenly
+spaced values along the x-axis.  In general, these work by
+specifying a desired interval of values and then <em>either</em> the number
+of elements <em>N</em> in the array <em>or</em> the step-size interval between
+elements.</p>
+<ul>
+<li><p class="first">For <code class="docutils literal"><span class="pre">np.arange()</span></code>, we specify the desired interval of values as
+<code class="docutils literal"><span class="pre">[A,</span> <span class="pre">B)</span></code> and the step size between elements. The usage for this
+function is shown from the top of its help doc-string
+(<code class="docutils literal"><span class="pre">np.arange?</span></code>):</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">Docstring</span><span class="p">:</span>
+<span class="n">arange</span><span class="p">([</span><span class="n">start</span><span class="p">,]</span> <span class="n">stop</span><span class="p">[,</span> <span class="n">step</span><span class="p">,],</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+<span class="n">Return</span> <span class="n">evenly</span> <span class="n">spaced</span> <span class="n">values</span> <span class="n">within</span> <span class="n">a</span> <span class="n">given</span> <span class="n">interval</span><span class="o">.</span>
+
+<span class="n">Values</span> <span class="n">are</span> <span class="n">generated</span> <span class="n">within</span> <span class="n">the</span> <span class="n">half</span><span class="o">-</span><span class="nb">open</span> <span class="n">interval</span> <span class="sb">``</span><span class="p">[</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">)</span><span class="sb">``</span>
+</pre></div>
+</td></tr></table></div>
+<p>Thus, there is one <em>required</em> argument, the <code class="docutils literal"><span class="pre">stop</span></code> value, and we
+can choose to enter our own <code class="docutils literal"><span class="pre">start</span></code> and <code class="docutils literal"><span class="pre">step</span></code> (or use the
+default values, which the help file also lists as <code class="docutils literal"><span class="pre">0</span></code> and <code class="docutils literal"><span class="pre">1</span></code>,
+respectively).  In each case, the number of elements <em>N</em> in the
+array is determined according to the following relation:</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">N</span> <span class="pre">=</span> <span class="pre">int(</span> <span class="pre">(stop</span> <span class="pre">-</span> <span class="pre">start)/step</span> <span class="pre">)</span></code></p>
+</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">D1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>          <span class="c1"># def: start = 0, step = 1</span>
+<span class="n">D2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">)</span>       <span class="c1"># def: step = 1</span>
+<span class="n">D3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">15</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>These yield the following, respectively:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span><span class="p">]</span>
+<span class="p">[</span><span class="o">-</span><span class="mi">4</span> <span class="o">-</span><span class="mi">3</span> <span class="o">-</span><span class="mi">2</span> <span class="o">-</span><span class="mi">1</span>  <span class="mi">0</span>  <span class="mi">1</span>  <span class="mi">2</span>  <span class="mi">3</span>  <span class="mi">4</span>  <span class="mi">5</span>  <span class="mi">6</span>  <span class="mi">7</span><span class="p">]</span>
+<span class="p">[</span><span class="o">-</span><span class="mi">15</span> <span class="o">-</span><span class="mi">12</span>  <span class="o">-</span><span class="mi">9</span>  <span class="o">-</span><span class="mi">6</span>  <span class="o">-</span><span class="mi">3</span>   <span class="mi">0</span>   <span class="mi">3</span>   <span class="mi">6</span>   <span class="mi">9</span>  <span class="mi">12</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Readers can verify that the expected values and number of elements
+occur in each case.  We highlight, however, that the single
+argument example <code class="docutils literal"><span class="pre">np.arange(N)</span></code> used to make <code class="docutils literal"><span class="pre">D1</span></code> is a very
+efficient way to generate all of the element indices in an array
+of length <em>N</em> (more on this soon).</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">np.linspace()</span></code> is a similar function, but for it we specify the
+desired interval of values as <code class="docutils literal"><span class="pre">[A,</span> <span class="pre">B]</span></code> (doubly-inclusive!)  and
+the total number of elements; the step size will be calculated
+internally based on the following:</p>
+<blockquote>
+<div><p><code class="docutils literal"><span class="pre">step</span> <span class="pre">=</span> <span class="pre">(stop</span> <span class="pre">-</span> <span class="pre">start)/(N</span> <span class="pre">-</span> <span class="pre">1)</span></code></p>
+</div></blockquote>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">L1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>        <span class="c1"># def: N = 50</span>
+<span class="n">L2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>These yield the following, respectively:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="mf">10.</span>        <span class="p">,</span>  <span class="mf">10.20408163</span><span class="p">,</span>  <span class="mf">10.40816327</span><span class="p">,</span>  <span class="mf">10.6122449</span> <span class="p">,</span>  <span class="mf">10.81632653</span><span class="p">,</span>
+  <span class="mf">11.02040816</span><span class="p">,</span>  <span class="mf">11.2244898</span> <span class="p">,</span>  <span class="mf">11.42857143</span><span class="p">,</span>  <span class="mf">11.63265306</span><span class="p">,</span>  <span class="mf">11.83673469</span><span class="p">,</span>
+  <span class="mf">12.04081633</span><span class="p">,</span>  <span class="mf">12.24489796</span><span class="p">,</span>  <span class="mf">12.44897959</span><span class="p">,</span>  <span class="mf">12.65306122</span><span class="p">,</span>  <span class="mf">12.85714286</span><span class="p">,</span>
+  <span class="mf">13.06122449</span><span class="p">,</span>  <span class="mf">13.26530612</span><span class="p">,</span>  <span class="mf">13.46938776</span><span class="p">,</span>  <span class="mf">13.67346939</span><span class="p">,</span>  <span class="mf">13.87755102</span><span class="p">,</span>
+  <span class="mf">14.08163265</span><span class="p">,</span>  <span class="mf">14.28571429</span><span class="p">,</span>  <span class="mf">14.48979592</span><span class="p">,</span>  <span class="mf">14.69387755</span><span class="p">,</span>  <span class="mf">14.89795918</span><span class="p">,</span>
+  <span class="mf">15.10204082</span><span class="p">,</span>  <span class="mf">15.30612245</span><span class="p">,</span>  <span class="mf">15.51020408</span><span class="p">,</span>  <span class="mf">15.71428571</span><span class="p">,</span>  <span class="mf">15.91836735</span><span class="p">,</span>
+  <span class="mf">16.12244898</span><span class="p">,</span>  <span class="mf">16.32653061</span><span class="p">,</span>  <span class="mf">16.53061224</span><span class="p">,</span>  <span class="mf">16.73469388</span><span class="p">,</span>  <span class="mf">16.93877551</span><span class="p">,</span>
+  <span class="mf">17.14285714</span><span class="p">,</span>  <span class="mf">17.34693878</span><span class="p">,</span>  <span class="mf">17.55102041</span><span class="p">,</span>  <span class="mf">17.75510204</span><span class="p">,</span>  <span class="mf">17.95918367</span><span class="p">,</span>
+  <span class="mf">18.16326531</span><span class="p">,</span>  <span class="mf">18.36734694</span><span class="p">,</span>  <span class="mf">18.57142857</span><span class="p">,</span>  <span class="mf">18.7755102</span> <span class="p">,</span>  <span class="mf">18.97959184</span><span class="p">,</span>
+  <span class="mf">19.18367347</span><span class="p">,</span>  <span class="mf">19.3877551</span> <span class="p">,</span>  <span class="mf">19.59183673</span><span class="p">,</span>  <span class="mf">19.79591837</span><span class="p">,</span>  <span class="mf">20.</span>        <span class="p">]</span>
+
+<span class="p">[</span><span class="o">-</span><span class="mf">2.</span> <span class="p">,</span> <span class="o">-</span><span class="mf">1.6</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.8</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.4</span><span class="p">,</span>  <span class="mf">0.</span> <span class="p">,</span>  <span class="mf">0.4</span><span class="p">,</span>  <span class="mf">0.8</span><span class="p">,</span>  <span class="mf">1.2</span><span class="p">,</span>  <span class="mf">1.6</span><span class="p">,</span>  <span class="mf">2.</span> <span class="p">]</span>
+</pre></div>
+</div>
+<p>Again, the reader can check the length of each array for expected
+behavior.  Looking at the above arrays, we might notice a looooot
+of significant digits in each of the <code class="docutils literal"><span class="pre">L1</span></code> elements.  While this
+may not matter (numbers are just numbers), in some cases one might
+prefer “cleaner” <code class="docutils literal"><span class="pre">step</span></code> sizes with fewer numbers of significant
+digits.  Looking at the formula for <code class="docutils literal"><span class="pre">step</span></code> with linspace,
+perhaps an odd number like 51 would provide such?  The reader can
+check this in this instance, and decided on preferred properties
+in other cases.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="np-zeros-and-np-ones-initialize-arrays-with-zeros-or-ones">
+<h3><a class="toc-backref" href="#id5"><code class="docutils literal"><span class="pre">np.zeros</span></code> (and <code class="docutils literal"><span class="pre">np.ones</span></code>): Initialize arrays with zeros (or ones)</a><a class="headerlink" href="#np-zeros-and-np-ones-initialize-arrays-with-zeros-or-ones" title="Permalink to this headline">¶</a></h3>
+<p>As a final example of NumPy functionality to make arrays, we discuss
+<code class="docutils literal"><span class="pre">np.zeros()</span></code>, which makes an array in any specified shape and
+whose elements are all zero of a given type.  (We note that a
+similar function called <code class="docutils literal"><span class="pre">np.ones()</span></code> also exists, with all comments
+below applying; it initializes all values in an array to unity, and
+we will see uses for it later.)</p>
+<p>When creating a 1D array of zeros, the shape is just the length of
+the array:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Z</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>                  <span class="c1"># def: dtype=float</span>
+<span class="n">Z2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+<span class="n">Z3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">complex</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>which respectively yield:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[</span> <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span>  <span class="mf">0.</span><span class="p">]</span>
+<span class="p">[</span><span class="bp">False</span> <span class="bp">False</span> <span class="bp">False</span> <span class="bp">False</span><span class="p">]</span>
+<span class="p">[</span> <span class="mf">0.</span><span class="o">+</span><span class="mf">0.j</span>  <span class="mf">0.</span><span class="o">+</span><span class="mf">0.j</span>  <span class="mf">0.</span><span class="o">+</span><span class="mf">0.j</span>  <span class="mf">0.</span><span class="o">+</span><span class="mf">0.j</span>  <span class="mf">0.</span><span class="o">+</span><span class="mf">0.j</span>  <span class="mf">0.</span><span class="o">+</span><span class="mf">0.j</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Such arrays of zeros are often referred to as <strong>empty arrays</strong>.</p>
+<p>In specifying a multidimensional array, the shape is a collection of
+numbers, and as noted above, we can group them in parentheses to
+pass them as a single argument:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Z4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>              <span class="c1"># def: dtype=float</span>
+<span class="n">Z5</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">bool</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>yielding:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[[</span> <span class="mf">0.</span>  <span class="mf">0.</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.</span>  <span class="mf">0.</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.</span>  <span class="mf">0.</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.</span>  <span class="mf">0.</span><span class="p">]</span>
+ <span class="p">[</span> <span class="mf">0.</span>  <span class="mf">0.</span><span class="p">]]</span>
+
+<span class="p">[[</span><span class="bp">False</span> <span class="bp">False</span> <span class="bp">False</span> <span class="bp">False</span><span class="p">]</span>
+ <span class="p">[</span><span class="bp">False</span> <span class="bp">False</span> <span class="bp">False</span> <span class="bp">False</span><span class="p">]</span>
+ <span class="p">[</span><span class="bp">False</span> <span class="bp">False</span> <span class="bp">False</span> <span class="bp">False</span><span class="p">]]</span>
+</pre></div>
+</div>
+<p>If we had tried to pass the two dimensions without the parentheses,
+such as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Z4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>then Python would interpret this as passing two separate arguments,
+the first a 1D shape and the second a dtype; since <code class="docutils literal"><span class="pre">2</span></code> is not a
+known type, the following error message would occur:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="ne">TypeError</span><span class="p">:</span> <span class="n">data</span> <span class="nb">type</span> <span class="ow">not</span> <span class="n">understood</span>
+</pre></div>
+</div>
+<p>Matrices with more than two dimension can be created in the same
+manner.  Since we don’t have higher dimensional screens, though,
+they get displayed to the user as 2D “slices” of the full array:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Z6</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>yields:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="p">[[[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">]]</span>
+
+<span class="p">[[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">]</span>
+ <span class="p">[</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">]]]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="generalizing-arrays-with-formulas-intro">
+<h3><a class="toc-backref" href="#id6">Generalizing: arrays with formulas (intro)</a><a class="headerlink" href="#generalizing-arrays-with-formulas-intro" title="Permalink to this headline">¶</a></h3>
+<p>Why would we want an “empty array” of all zeros?  Well, it provides us
+an easy approach for initializing an array of arbitrary size quickly.
+We can then go through and reassign the values that we want (“filling”
+the array). For example, we could reassign the elements in <code class="docutils literal"><span class="pre">Z</span></code>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">Z</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">Z</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">Z</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">Z</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">Z</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">16</span>
+</pre></div>
+</div>
+<p>Well, in such a case as this, why not just use <code class="docutils literal"><span class="pre">np.array()</span></code>?</p>
+<p>The reason would be that many times we do not just have unrelated
+numbers that we are putting in an array– <em>there is some kind of
+system or rule for them</em>.  Consider values just assigned to
+<code class="docutils literal"><span class="pre">Z</span></code>. We can see a relation between each index and value, which we
+could write mathematically as this:</p>
+<blockquote>
+<div><img class="math" src="../_images/math/76a942276182201f6139a5d8be03dc4c0be558d6.svg" alt="\displaystyle Z_i = i^2, ~~{\rm for}~0 \leq i &lt; 5."/></div></blockquote>
+<p>The first “rule” part of that can be expressed directly in
+programming-ese: <code class="docutils literal"><span class="pre">Z[i]</span> <span class="pre">=</span> <span class="pre">i**2</span></code>.  The second part just says to
+iterate through values of <code class="docutils literal"><span class="pre">i</span></code> in a specified range; that
+translates to a control statement in programming (appropriately)
+called a <strong>for loop</strong>.  The full Python translation of the above
+would be:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span><span class="o">**</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal"><span class="pre">range(5)</span></code> is like running <code class="docutils literal"><span class="pre">np.arange(5)</span></code>, which makes an
+order set of ints <code class="docutils literal"><span class="pre">[0,</span> <span class="pre">1,</span> <span class="pre">2,</span> <span class="pre">3,</span> <span class="pre">4]</span></code>.  Python will assign <code class="docutils literal"><span class="pre">i</span></code> the
+first value in the list <code class="docutils literal"><span class="pre">0</span></code>, then perform the indented commands
+(<code class="docutils literal"><span class="pre">Z[0]</span> <span class="pre">=</span> <span class="pre">0**2</span></code>), then loop back to the <code class="docutils literal"><span class="pre">for</span></code> line and assign
+<code class="docutils literal"><span class="pre">i</span></code> the next value <code class="docutils literal"><span class="pre">1</span></code>, then perform the indented commands
+(<code class="docutils literal"><span class="pre">Z[1]</span> <span class="pre">=</span> <span class="pre">1**2</span></code>), etc. until it is through its appointed values of
+<code class="docutils literal"><span class="pre">i</span></code>.  More is discussed about this in the next section, but it is
+the basis of extremely powerful and useful programming
+functionality.</p>
+<p>The key part for the array in this is to store values, but the full
+array of correct type <strong>must</strong> be initialized before using the for
+loop.  <code class="docutils literal"><span class="pre">np.zeros</span></code> provides a useful way to initialize all values
+to a null value, so that one can see later if a mistake was made
+with counting/indexing, for example if the array is left with lots
+of zeros.</p>
+</div>
+</div>
+<div class="section" id="practice-1">
+<h2><a class="toc-backref" href="#id7">3.1.3. Practice 1</a><a class="headerlink" href="#practice-1" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Make the following arrays with NumPy functions:</p>
+<ol class="lowerroman simple">
+<li><img class="math" src="../_images/math/41c079f69fc4cf7c2a7a849b544ea98e5bf44e0c.svg" alt="\displaystyle \textbf{v} = (-1.1, 5, 7.6)"/>.</li>
+<li><img class="math" src="../_images/math/76d336aaa518dcf0fc3b540c7012458b2f39ea5a.svg" alt="\displaystyle \textbf{u} = (2, 4, 6)"/>.</li>
+<li><img class="math" src="../_images/math/bd5d51ef40ecf4563aa008f005f3d61dfbe893c5.svg" alt="\displaystyle \textbf{w} = (2+3i, -4-3i, 6)"/>.</li>
+<li>An <img class="math" src="../_images/math/341dff3394d07c324e798740f0394ee7388ed365.svg" alt="\displaystyle 2\times3"/> matrix of bools, with the
+first row <code class="docutils literal"><span class="pre">True</span></code> and the second row <code class="docutils literal"><span class="pre">False</span></code>.</li>
+<li>A matrix of zeros: <img class="math" src="../_images/math/7457053768a430ae742a108a61f256ebfa401d63.svg" alt="~~\displaystyle \texttt{Mint} \in
+\mathbf{Z}^{5\times10}"/>.</li>
+<li>A matrix of zeros: <img class="math" src="../_images/math/76f49e19bf70491b6b6232ddb6d9f37e8abbeb68.svg" alt="~~\displaystyle \texttt{Mfl} \in
+\mathbf{R}^{2\times3\times4}"/>.  Print the shape of <code class="docutils literal"><span class="pre">Mfl</span></code> to
+verify its dimensions.</li>
+<li>An array <code class="docutils literal"><span class="pre">A</span></code> of integers in the range <img class="math" src="../_images/math/ed2961c914571412a0e979dd2ac92a1cc3f5ce9e.svg" alt="[0, 11]"/>.</li>
+<li>An array <code class="docutils literal"><span class="pre">xint</span></code> of integers in the range <img class="math" src="../_images/math/c2c3407f02fd91e65869c4edffb1d84c189da6a3.svg" alt="[-15, 15]"/>.</li>
+<li>An array <code class="docutils literal"><span class="pre">xfl</span></code> of 81 evenly spaced values in the range
+<img class="math" src="../_images/math/9e8afbf9921ec1dc72f88dc87b85b15b2fcd1553.svg" alt="[0, 20]"/>.</li>
+</ol>
+</li>
+<li><p class="first">Use <code class="docutils literal"><span class="pre">for</span></code> loops to make the following:</p>
+<ol class="lowerroman simple">
+<li><img class="math" src="../_images/math/18cc5c92cf0e469e3aad282e4289e839fb73328b.svg" alt="~\displaystyle x_i = \log_{10}(i+1)"/>, for
+<img class="math" src="../_images/math/96e1d9f0d8a0199e183a0711e97eac288c41743a.svg" alt="~\displaystyle 0 \leq i &lt; 11"/></li>
+<li><img class="math" src="../_images/math/77d5aa554199e12c4f36f21bf1c1812741f7ad5f.svg" alt="~\displaystyle y_n = \sqrt{4n}+1"/>, for
+<img class="math" src="../_images/math/d58caa3938d5fbac327c265e007476766687db08.svg" alt="~\displaystyle 0\leq n &lt; 17"/></li>
+<li><img class="math" src="../_images/math/0a0262709e1b68aef34b8d5b03c65ea6e33a1342.svg" alt="~\displaystyle z_k = (3k + 4i)^3"/>, for
+<img class="math" src="../_images/math/f42ff3a21a7e36a08fb05031f2f8d3a538f27d11.svg" alt="~\displaystyle k \in [0, 20]"/>. Note that <code class="docutils literal"><span class="pre">i</span></code> in this
+expression is the imaginary number.</li>
+<li>Define an array <code class="docutils literal"><span class="pre">flip</span></code> as follows: <code class="docutils literal"><span class="pre">flip[i]</span></code> equals
+<img class="math" src="../_images/math/f29e1c56fb97863340fc3031faadfb255ba1b482.svg" alt="\displaystyle i^3"/> for even <code class="docutils literal"><span class="pre">i</span></code> and
+<img class="math" src="../_images/math/c8d1346eded98738a9245d6179b89f7665ec0a69.svg" alt="\displaystyle i^2"/> for odd <code class="docutils literal"><span class="pre">i</span></code>, over the
+interval <img class="math" src="../_images/math/392639f2babf74fefb2ab4b40028474ff89c30ab.svg" alt="~\displaystyle 0\leq i &lt; 20"/></li>
+<li>An array <code class="docutils literal"><span class="pre">zabs</span></code> whose values are the absolute values of <code class="docutils literal"><span class="pre">z</span></code>
+from the previous question.</li>
+<li><img class="math" src="../_images/math/2a0717b341872f892975fd5a45f9399c63481275.svg" alt="~\displaystyle M_{i,j} = 30 - 6i - j"/>, for
+<img class="math" src="../_images/math/59c0cb9de16b99e77932694abb5e55c73d790709.svg" alt="~\displaystyle 0 \leq i &lt; 6;~ 0 \leq j &lt; 5"/></li>
+</ol>
+</li>
+<li><p class="first">Use whatever seems best to make the following:</p>
+<ol class="lowerroman">
+<li><p class="first">An array <code class="docutils literal"><span class="pre">t</span></code> of <em>N = 25</em> evenly spaced values between [-10,
+10].</p>
+</li>
+<li><p class="first">Using the above result, <img class="math" src="../_images/math/124b4cf1af60a8e9e0e36aa060231c207f6d9ec6.svg" alt="~\displaystyle s_n = \sin(2\pi
+t_n)"/>, over the <code class="docutils literal"><span class="pre">len(t)</span></code> (i.e., over all the values in <code class="docutils literal"><span class="pre">t</span></code>).</p>
+</li>
+<li><p class="first">Make sure your code answering the first two parts makes it easy
+to adjust the number of elements in <code class="docutils literal"><span class="pre">t</span></code> and have the number of
+elements in <code class="docutils literal"><span class="pre">s</span></code> adjust automatically.  Plot the results from
+above using, for example:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Does your result look like what is expected?  What happens as
+you increase <em>N</em>?</p>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div class="sphinx-toc sphinxglobaltoc">
+<h3><a href="../index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/main_toc.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../week1/main_toc.html">2. Week 1</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="main_toc.html">3. Week 2</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.1. Arrays</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#translating-vectors-and-matrices-to-arrays">3.1.1. Translating Vectors and Matrices to Arrays</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#creating-arrays">3.1.2. Creating arrays</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#np-array-arrays-with-all-known-values"><code class="docutils literal"><span class="pre">np.array</span></code>: Arrays with all known values</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#np-arange-and-np-linspace-evenly-spaced-arrays"><code class="docutils literal"><span class="pre">np.arange</span></code> and <code class="docutils literal"><span class="pre">np.linspace</span></code>: Evenly spaced arrays</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#np-zeros-and-np-ones-initialize-arrays-with-zeros-or-ones"><code class="docutils literal"><span class="pre">np.zeros</span></code> (and <code class="docutils literal"><span class="pre">np.ones</span></code>): Initialize arrays with zeros (or ones)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generalizing-arrays-with-formulas-intro">Generalizing: arrays with formulas (intro)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#practice-1">3.1.3. Practice 1</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="loop_for.html">3.2. Loops:  <strong>for</strong></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../week3/main_toc.html">4. Week 3</a></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/week2/arrays.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="loop_for.html" title="3.2. Loops: for"
+             >next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="main_toc.html" title="3. Week 2"
+             >previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Master MS2E Python 0.1 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="main_toc.html" >3. Week 2</a> &#187;</li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Yves Semegni and A. Clément HOUNKPEVI.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

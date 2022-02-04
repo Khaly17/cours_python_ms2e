@@ -1,0 +1,188 @@
+:tocdepth: 2
+
+.. _week1_modules:
+
+Modules
+=======
+
+.. contents:: :local:
+
+.. highlight:: python
+
+:ref:`We have already seen <week1_basic_ops>` how lots of very basic
+mathematical operators are directly available in Python.  But we would
+also like to be able to do further things, like calculate sinusoids,
+exponentials and logarithms; generate random numbers from many
+different distributions; perform image processing; plot results; and
+many other things.  While it is true we could write our own functions
+to do these things (and sometimes we might), in general we can avoid
+"reinventing the wheel" and spend our time addressing other questions,
+by importing **modules**.
+
+Modules are sets of code that contain sets of functions, constants and
+other objects, generally organized around a given topic.  By
+**importing** a module, we mean that we make that modules
+functionality available for our given program or session. Once the
+module file has been imported, it is just as if its code had been
+included at that point in the main code. We can think of importing a
+module like going to a library and picking out a book on statistics
+for probability distributions, a book of algebra for matrix
+operations, etc.
+
+As with books, sometimes there are overlaps of functionality among
+modules.  Also as with books, we like to cite where things come from
+for easy reference, understanding by both ourselves and others.  Both
+of these factors influence the way in which we import modules.
+
+Importing a module
+##################
+
+There are different ways to import modules (or even just pieces of
+modules).  In general, we strongly prefer the following method and
+will typically use it here::
+
+  import <MODULE_NAME> as <ABBREVIATION>
+
+The abbreviation will be chosen to be unique for each module, and it
+is included every time we use part of the module.  In this way, it
+acts as a reference citation both for ourselves and for others.  It
+also helps avoid problems of conflicts if, for example, two modules
+contain a function of the same name.
+
+For example, one of the most common modules we will make use of is
+NumPy (`link <http://www.numpy.org/>`_), which contains arrays and many
+associated linear algebra operations; trigonometric and hyperbolic
+functions; random number generators; and many other tools.  The
+standard import and abbreviation are::
+
+  import numpy as np
+
+Once this is done, to use any function or assignment within numpy, we
+just type things like::
+  
+  np.sin(10)
+  x = np.exp(-3.5)
+  y = np.log(x)
+  np.log(10**7)
+  print("the value of PI is:", np.pi)
+
+\.\.\. and *many* more.
+
+Some large modules even contain submodules for specific topics. We can
+import the submodule in just the same manner as the full module,
+providing it its own abbreviation.  For example, we will often use the
+"pyplot" submodule of Matplotlib::
+
+  import matplotlib.pyplot as plt
+
+Again, functions within the (sub)module are just used in the same
+manner as before::
+
+  plt.plot(x, y)
+  plt.hist(A)
+
+etc.
+
+A basic set of modules
+######################
+
+In this course, we will use the following modules.  Again, this is a
+tiny set in an increasing set of modules available within the Python
+community.
+
+  .. list-table::
+     :header-rows: 1
+     :widths:  15 40 45
+
+     * - Module/link
+       - Standard import
+       - Description (partial!)
+     * - `NumPy <https://docs.scipy.org/doc/numpy/reference/index.html#reference>`_
+       - ``import numpy as np``
+       - Packages for: linear algebra, arrays, matrix operations,
+         random numbers, index operations, polynomials, Fourier
+         transform
+     * - `SciPy <https://docs.scipy.org/doc/scipy/reference/>`_
+       - | ``import scipy.integrate as integrate``
+         | ``import scipy.special as special``
+       - Packages for: interpolation, integration, linear algebra,
+         dealing with sparse matrices, image processing, optimization
+     * - `matplotlib <https://matplotlib.org/>`_
+       - | ``import matplotlib as mpl``
+         | ``import matplotlib.pyplot as plt``
+       - Packages for: plotting (2D and 3D), histograms, graphs,
+         charts, image processing, interactive plots
+
+More with modules
+#################
+
+**How can we tell what functionality is available in a module?** We
+can
+
+* read the `online documentation
+  <https://docs.scipy.org/doc/numpy/user/index.html>`_,
+
+* type ``np.`` and hit ``TAB`` to see a list of all objects in the
+  module (yes, TAB-autocompletion is useful here, too!)
+
+* guess a name and try typing it after ``np.``. Mmany module function
+  names are the same as known mathematical functions (e.g., sin(),
+  cos(), arctan(), tanh(), etc.) or variations (e.g., log(), log10(),
+  log2(), etc.), and TAB-autocompletion might help show options when
+  we have typed part of a known name
+
+* search online for name of the function
+
+Similarly, **how can we find what module a desired function is located
+in?**  We can
+
+* know from experience as we program
+
+* note the abbreviation prefixing the function's name in a code, and
+  check the ``import`` statement
+
+* search online, such as "Python module binomial distribution" or,
+  more generally, "Python module <FUNCTION_DESCRIPTION>".
+
+Additionally, we can write our *own* modules to help us organize our
+work.  A module can be as simple as a text file with function
+definitions, parameter assignments and objects of interest, which we
+would import in a similar manner (and still making an abbreviation for
+each one). Making our own modules odules allow us to write code, and
+separate it out from other code into a different file. This style of
+programming-- having distinct pieces for specific jobs, which are then
+later combined-- is referred to as **modular programming**, and it is
+a very efficient model for being able to read, test and verify small
+pieces, before combining them into the final product.
+
+We can use the import statement to include the code of another file,
+either in the current directory or in Python's search path.  For
+example, if have some functions defined in a file called
+"lib_astro_functions.py" (and it is either in the present working
+directory or in Python's search path), we can put this in our main
+code::
+
+  import lib_project as lp
+
+and then use functions from it by prefixing them with ``lp.``.  (In
+the case of self-written modules, we likely have to make up our own
+abbreviation, and the above was just chosen from the initials of the
+file name.)
+
+Rather than have one really big book of all of mathematics and
+mathematical sciences, it is useful to keep different areas
+compartmentalized for ease of reference and use.  The same is true of
+programming: we don't want a single, huge file that is hard to search
+through or to check individual pieces of. Modularization makes
+programming more manageable.
+
+
+.. notes to self:
+
+   need comments on downloading/installing modules, if not already in
+   existence; 
+   + can give example for ubuntu package manager:
+        sudo apt-get install python-numpy
+   + probably, under "setup", we should have a separate page on installing
+     things for this set of webpages;  list modules we will use, include
+     commands, again I would suggest for Ubuntu

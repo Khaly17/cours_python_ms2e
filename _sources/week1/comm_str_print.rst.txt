@@ -1,0 +1,116 @@
+:tocdepth: 2
+
+.. _week1_comm_str_print:
+
+Comments, strings and print: helping humans program
+===================================================
+
+.. contents:: :local:
+
+.. highlight:: python
+
+
+.. _week1_comm_str_print_print:
+
+
+
+
+Strings
+--------------------------------------------------------------------------
+
+Another kind of type that is very useful to have in programming is a
+non-mathematical one: **strings**.  A string is a sequence of
+**characters** (keystrokes) enclosed between single ``'``, double
+``''`` or triple quotes ``'''``.  For example, the following are all
+strings (the ``print`` function is discussed below)::
+
+  s1 = 'Bonjour.'
+  s2 = "Yes, I'm a string!"
+  s3 = '''It may seem funny, but I am also a string.'''
+  print(s1)
+  print(s2)
+  print(s3)
+
+Note that when each of those is displayed, the single/double/triple
+quotes that envelope the string are *not* displayed as part of the
+string:
+
+.. code-block::  none
+
+   Bonjour.
+   Yes, I'm a string!
+   It may seem funny, but I am also a string.
+
+However, one can include quotation mark(s) and apostrophes as
+characters inside of a string; that is actually one reason why there
+are so many ways to signify the boundaries of a string: one can denote
+the boundary using a different type of quote than the interior one(s),
+thus Python can interpret what is a character and what is a boundary
+marker.
+
+Note that the following would lead to an error, because Python will
+try to use the embedded apostrophe as one of the boundaries (because
+the string was started with a single apostrophe):
+
+.. code-block::  none
+
+   s4 = 'I'm going to cause trouble!'
+
+
+
+Print
+--------------------------------------------------------------------------
+
+While programming, we will often want to display intermediate and/or
+final results, so we know what is happening or what the main output
+is.  To do this, we use the **print** function in Python.  We can
+print values and strings directly, and multiple things can be printed
+just by separating them with a comma, as in the following cases::
+
+   print(x)
+   print("string")
+   print("string", x)
+   print("string1", x, "string2", y)
+
+Note that the arguments to print can be expressions/operations that
+are first evaluated with the *result* printed.  For example,::
+
+   a = 10
+   b = 35
+   print("the difference is:", b-a)
+
+etc.
+
+Comments
+--------
+
+When programming, we are continually writing commands in Pythonese for
+the computer to interpret.  Some of these get very complicated, and
+even though we write a block of code today we might forget what it was
+supposed to do tomorrow.  Therefore, it is very useful to include
+**comments** in coding projects: these are line(s) of text that are
+*not* interpreted by Python, but instead can be read by humans.  On
+any line, one starts a comment with the hash (or "pound") symbol
+``#``, and then any text to its right is inside the comment. Comments
+may start at any point within a line; text to the left is still
+evaluated.
+
+For example, you can copy and paste the following to see that the text
+after ``#`` are really not evaluated.
+
+  .. code-block::  python
+
+     # This is an example of using a comment.
+     a = 10
+     b = 35
+     print("the difference is:", b-a)
+
+     # print("I am invisible! (It's because I'm inside a comment.")
+     print("I am *not* inside a comment.  I will be interpreted!")
+
+     # This is a multiline comment, because I have ever-so-many things
+     # say about... what again?
+     X = 10
+     print("X^2 = ", X**2)
+
+     GRAVITY = 9.8   # units of m/s^2

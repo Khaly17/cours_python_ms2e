@@ -1,0 +1,336 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>2.3. Modules &#8212; Master MS2E Python 0.1 documentation</title>
+    <link rel="stylesheet" href="../_static/cloud.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=PT+Sans|Noticia+Text|Open+Sans|Droid+Sans+Mono|Roboto" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/jquery.cookie.js"></script>
+    <script type="text/javascript" src="../_static/cloud.base.js"></script>
+    <script type="text/javascript" src="../_static/cloud.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2.4. Reading help files" href="helpfiles.html" />
+    <link rel="prev" title="2.2. Comments, strings and print: helping humans program" href="comm_str_print.html" /> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div class="relbar-top">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="helpfiles.html" title="2.4. Reading help files"
+             accesskey="N">next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="comm_str_print.html" title="2.2. Comments, strings and print: helping humans program"
+             accesskey="P">previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Master MS2E Python 0.1 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="main_toc.html" accesskey="U">2. Week 1</a> &#187;</li> 
+      </ul>
+    </div>
+    </div>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="modules">
+<span id="week1-modules"></span><h1>2.3. Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><a class="reference internal" href="#importing-a-module" id="id1">Importing a module</a></li>
+<li><a class="reference internal" href="#a-basic-set-of-modules" id="id2">A basic set of modules</a></li>
+<li><a class="reference internal" href="#more-with-modules" id="id3">More with modules</a></li>
+</ul>
+</div>
+<p><a class="reference internal" href="basic_ops.html#week1-basic-ops"><span class="std std-ref">We have already seen</span></a> how lots of very basic
+mathematical operators are directly available in Python.  But we would
+also like to be able to do further things, like calculate sinusoids,
+exponentials and logarithms; generate random numbers from many
+different distributions; perform image processing; plot results; and
+many other things.  While it is true we could write our own functions
+to do these things (and sometimes we might), in general we can avoid
+“reinventing the wheel” and spend our time addressing other questions,
+by importing <strong>modules</strong>.</p>
+<p>Modules are sets of code that contain sets of functions, constants and
+other objects, generally organized around a given topic.  By
+<strong>importing</strong> a module, we mean that we make that modules
+functionality available for our given program or session. Once the
+module file has been imported, it is just as if its code had been
+included at that point in the main code. We can think of importing a
+module like going to a library and picking out a book on statistics
+for probability distributions, a book of algebra for matrix
+operations, etc.</p>
+<p>As with books, sometimes there are overlaps of functionality among
+modules.  Also as with books, we like to cite where things come from
+for easy reference, understanding by both ourselves and others.  Both
+of these factors influence the way in which we import modules.</p>
+<div class="section" id="importing-a-module">
+<h2><a class="toc-backref" href="#id1">2.3.1. Importing a module</a><a class="headerlink" href="#importing-a-module" title="Permalink to this headline">¶</a></h2>
+<p>There are different ways to import modules (or even just pieces of
+modules).  In general, we strongly prefer the following method and
+will typically use it here:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="o">&lt;</span><span class="n">MODULE_NAME</span><span class="o">&gt;</span> <span class="k">as</span> <span class="o">&lt;</span><span class="n">ABBREVIATION</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>The abbreviation will be chosen to be unique for each module, and it
+is included every time we use part of the module.  In this way, it
+acts as a reference citation both for ourselves and for others.  It
+also helps avoid problems of conflicts if, for example, two modules
+contain a function of the same name.</p>
+<p>For example, one of the most common modules we will make use of is
+NumPy (<a class="reference external" href="http://www.numpy.org/">link</a>), which contains arrays and many
+associated linear algebra operations; trigonometric and hyperbolic
+functions; random number generators; and many other tools.  The
+standard import and abbreviation are:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+</pre></div>
+</div>
+<p>Once this is done, to use any function or assignment within numpy, we
+just type things like:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">3.5</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mi">10</span><span class="o">**</span><span class="mi">7</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;the value of PI is:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>… and <em>many</em> more.</p>
+<p>Some large modules even contain submodules for specific topics. We can
+import the submodule in just the same manner as the full module,
+providing it its own abbreviation.  For example, we will often use the
+“pyplot” submodule of Matplotlib:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+</pre></div>
+</div>
+<p>Again, functions within the (sub)module are just used in the same
+manner as before:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>etc.</p>
+</div>
+<div class="section" id="a-basic-set-of-modules">
+<h2><a class="toc-backref" href="#id2">2.3.2. A basic set of modules</a><a class="headerlink" href="#a-basic-set-of-modules" title="Permalink to this headline">¶</a></h2>
+<p>In this course, we will use the following modules.  Again, this is a
+tiny set in an increasing set of modules available within the Python
+community.</p>
+<blockquote>
+<div><table border="1" class="colwidths-given docutils">
+<colgroup>
+<col width="15%" />
+<col width="40%" />
+<col width="45%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Module/link</th>
+<th class="head">Standard import</th>
+<th class="head">Description (partial!)</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/index.html#reference">NumPy</a></td>
+<td><code class="docutils literal"><span class="pre">import</span> <span class="pre">numpy</span> <span class="pre">as</span> <span class="pre">np</span></code></td>
+<td>Packages for: linear algebra, arrays, matrix operations,
+random numbers, index operations, polynomials, Fourier
+transform</td>
+</tr>
+<tr class="row-odd"><td><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/">SciPy</a></td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal"><span class="pre">import</span> <span class="pre">scipy.integrate</span> <span class="pre">as</span> <span class="pre">integrate</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">import</span> <span class="pre">scipy.special</span> <span class="pre">as</span> <span class="pre">special</span></code></div>
+</div>
+</td>
+<td>Packages for: interpolation, integration, linear algebra,
+dealing with sparse matrices, image processing, optimization</td>
+</tr>
+<tr class="row-even"><td><a class="reference external" href="https://matplotlib.org/">matplotlib</a></td>
+<td><div class="first last line-block">
+<div class="line"><code class="docutils literal"><span class="pre">import</span> <span class="pre">matplotlib</span> <span class="pre">as</span> <span class="pre">mpl</span></code></div>
+<div class="line"><code class="docutils literal"><span class="pre">import</span> <span class="pre">matplotlib.pyplot</span> <span class="pre">as</span> <span class="pre">plt</span></code></div>
+</div>
+</td>
+<td>Packages for: plotting (2D and 3D), histograms, graphs,
+charts, image processing, interactive plots</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</div>
+<div class="section" id="more-with-modules">
+<h2><a class="toc-backref" href="#id3">2.3.3. More with modules</a><a class="headerlink" href="#more-with-modules" title="Permalink to this headline">¶</a></h2>
+<p><strong>How can we tell what functionality is available in a module?</strong> We
+can</p>
+<ul class="simple">
+<li>read the <a class="reference external" href="https://docs.scipy.org/doc/numpy/user/index.html">online documentation</a>,</li>
+<li>type <code class="docutils literal"><span class="pre">np.</span></code> and hit <code class="docutils literal"><span class="pre">TAB</span></code> to see a list of all objects in the
+module (yes, TAB-autocompletion is useful here, too!)</li>
+<li>guess a name and try typing it after <code class="docutils literal"><span class="pre">np.</span></code>. Mmany module function
+names are the same as known mathematical functions (e.g., sin(),
+cos(), arctan(), tanh(), etc.) or variations (e.g., log(), log10(),
+log2(), etc.), and TAB-autocompletion might help show options when
+we have typed part of a known name</li>
+<li>search online for name of the function</li>
+</ul>
+<p>Similarly, <strong>how can we find what module a desired function is located
+in?</strong>  We can</p>
+<ul class="simple">
+<li>know from experience as we program</li>
+<li>note the abbreviation prefixing the function’s name in a code, and
+check the <code class="docutils literal"><span class="pre">import</span></code> statement</li>
+<li>search online, such as “Python module binomial distribution” or,
+more generally, “Python module &lt;FUNCTION_DESCRIPTION&gt;”.</li>
+</ul>
+<p>Additionally, we can write our <em>own</em> modules to help us organize our
+work.  A module can be as simple as a text file with function
+definitions, parameter assignments and objects of interest, which we
+would import in a similar manner (and still making an abbreviation for
+each one). Making our own modules odules allow us to write code, and
+separate it out from other code into a different file. This style of
+programming– having distinct pieces for specific jobs, which are then
+later combined– is referred to as <strong>modular programming</strong>, and it is
+a very efficient model for being able to read, test and verify small
+pieces, before combining them into the final product.</p>
+<p>We can use the import statement to include the code of another file,
+either in the current directory or in Python’s search path.  For
+example, if have some functions defined in a file called
+“lib_astro_functions.py” (and it is either in the present working
+directory or in Python’s search path), we can put this in our main
+code:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">lib_project</span> <span class="kn">as</span> <span class="nn">lp</span>
+</pre></div>
+</div>
+<p>and then use functions from it by prefixing them with <code class="docutils literal"><span class="pre">lp.</span></code>.  (In
+the case of self-written modules, we likely have to make up our own
+abbreviation, and the above was just chosen from the initials of the
+file name.)</p>
+<p>Rather than have one really big book of all of mathematics and
+mathematical sciences, it is useful to keep different areas
+compartmentalized for ease of reference and use.  The same is true of
+programming: we don’t want a single, huge file that is hard to search
+through or to check individual pieces of. Modularization makes
+programming more manageable.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div class="sphinx-toc sphinxglobaltoc">
+<h3><a href="../index.html">Table Of Contents</a></h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../introduction/main_toc.html">1. Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="main_toc.html">2. Week 1</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="basic_ops.html">2.1. Basic operations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="comm_str_print.html">2.2. Comments, strings and print: helping humans program</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.3. Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#importing-a-module">2.3.1. Importing a module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#a-basic-set-of-modules">2.3.2. A basic set of modules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#more-with-modules">2.3.3. More with modules</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="helpfiles.html">2.4. Reading help files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boolean_if.html">2.5. Comparison, logic and <strong>if</strong> conditions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../week2/main_toc.html">3. Week 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../week3/main_toc.html">4. Week 3</a></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/week1/modules.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+    
+    
+        <div class="sidebar-toggle-group no-js">
+            
+            <button class="sidebar-toggle" id="sidebar-hide" title="Hide the sidebar menu">
+                 «
+                <span class="show-for-small">hide menu</span>
+                
+            </button>
+            <button class="sidebar-toggle" id="sidebar-show" title="Show the sidebar menu">
+                
+                <span class="show-for-small">menu</span>
+                <span class="hide-for-small">sidebar</span>
+                 »
+            </button>
+        </div>
+    
+      <div class="clearer"></div>
+    </div>
+    <div class="relbar-bottom">
+        
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="helpfiles.html" title="2.4. Reading help files"
+             >next</a> &nbsp; &nbsp;</li>
+        <li class="right" >
+          <a href="comm_str_print.html" title="2.2. Comments, strings and print: helping humans program"
+             >previous</a> &nbsp; &nbsp;</li>
+    <li><a href="../index.html">Master MS2E Python 0.1 documentation</a> &#187;</li>
+
+          <li class="nav-item nav-item-1"><a href="main_toc.html" >2. Week 1</a> &#187;</li> 
+      </ul>
+    </div>
+    </div>
+
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2021, Yves Semegni and A. Clément HOUNKPEVI.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.6.6.
+    </div>
+    <!-- cloud_sptheme 1.4 -->
+  </body>
+</html>

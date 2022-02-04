@@ -1,0 +1,29 @@
+.. Master MS2E Python documentation master file, created by
+   sphinx-quickstart on Mon Mar 19 22:39:45 2021.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Welcome to Master MS2E Python's documentation!
+=======================================
+
+.. toctree::
+   :maxdepth: 3
+   :numbered: 3
+   :includehidden:
+
+   introduction/main_toc
+   week1/main_toc
+   week2/main_toc
+   week3/main_toc
+
+|
+
+
+.. ADD LATER:
+
+   Indices and tables
+   ##################
+
+   * :ref:`genindex`
+   * :ref:`modindex`
+   * :ref:`search`

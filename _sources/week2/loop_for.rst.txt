@@ -1,0 +1,341 @@
+:tocdepth: 2
+
+.. _week2_loop_for:
+
+Loops:  **for**
+============================================================================
+
+.. contents:: :local:
+
+.. highlight:: python
+
+We noted earlier how Python will generally interpret a script file: it
+starts and the top and moves downward, executing each line of commands
+one time.  We also saw one way we could affect this, :ref:`using the
+if/elif/else conditionals <week1_boolean_if>` to control this a bit:
+we could direct the interpreter to execute some commands *only if*
+some condition(s) were true and skip others, etc.  Even in that case,
+however, each set of commands in a conditional branch were only
+executed once.  In the present section, we introduce a control
+statement to repeatedly execute a set of commands, tell Python to
+"loop" back through a set of lines repeatedly, using a **for loop**.
+
+``for``: basic syntax and repetition
+--------------------------------------------------------------------------
+
+The primary purpose of the ``for`` loop is to allow us to repeat a set
+of commands a specific number of times.  The most basic syntax to
+iterate through some commands, say, 4 times is:
+
+.. code-block:: python
+   :linenos:
+
+   for i in range(4):
+       <some commands>
+   <other commands>
+
+In this case, Python will use ``range`` to make a list of integers:
+with one argument, the default start is ``0``, so that the interval is
+[0, 4), and then ``i`` will take the value of the first element of
+that list, ``0``; then the set of ``some commands`` will be executed,
+but instead of continuing to ``other commands``, the interpreter
+"loops back" to line 1, and ``i`` is assigned the next value in the
+list; then ``some commands`` are executed, etc. until ``i`` has been
+given each value in the list.  Since there are 4 elements in the list,
+the set of commands are executed 4 times in total here.  Here, ``i``
+is called the **index** of the loop.
+
+Note the similar syntax to other Python control statements: the
+initial line ends with a colon ``:``.  The lines controlled by the
+``for`` all follow and are indented equal amounts (they are "inside
+the loop"; when the indentation stops, so does the list of commands
+(those are "outside the loop").  For example, consider
+
+.. code-block:: python
+   :linenos:
+
+   for i in range(4):
+       print("I am inside the loop :)")
+       print("I am also in the loop ;)")
+   print("I am outside :(")
+
+which produces:
+
+.. code-block:: none
+   :linenos:
+
+   I am inside the loop :)
+   I am also in the loop ;)
+   I am inside the loop :)
+   I am also in the loop ;)
+   I am inside the loop :)
+   I am also in the loop ;)
+   I am inside the loop :)
+   I am also in the loop ;)
+   I am outside :(
+
+It is important to note that each time we are executed, ``i`` takes a
+new value from its designated interval: line 1 (``i=0``), line 2, line
+3, line 1 (``i=1``), line 2, line 3, line 1 (``i=2``), ... After four
+repetitions, Python exits the loop, and line 4 is executed; ``i``
+retains its final value.  We can see all these aspects by
+considering::
+
+   for i in range(4):
+       print("The value of i is:", i)
+   print("The *final* value i is:", i)
+
+which produces:
+
+.. code-block:: none
+   :linenos:
+
+   The value of i is: 0
+   The value of i is: 1
+   The value of i is: 2
+   The value of i is: 3
+   The *final* value i is: 3
+
+``for``: with arrays
+--------------------------------------------------------------------------
+
+One of the deepest utilities of the ``for`` loop comes when it is
+combined with arrays.  Why is that?  Consider the following:
+
+* In an array of length *N*, what are the values of the indices across
+  all its elements?
+
+* In a ``for`` loop specified as ``for i in range(N):``, what are the
+  values that ``i`` takes across all repetitions?
+
+**The answer to both questions is** :math:`\displaystyle 0 \leq i <
+N`.  
+
+We can now think back to the :ref:`discussion of putting values into
+arrays <week2_arrays_creating>`.  If we have a single rule for putting
+values at each index in an array, then we can use a for loop to repeat
+that rule for all elements, with the added bonus that the loop index
+can be used in the formula, if needed, as well.
+
+Consider for example, wanting to make values 
+
+   :math:`\displaystyle b_i = 3i^2 - 4i + 2,~~{\rm for}~~ 0\leq i < 8.`
+
+(note that *i* is an index here, not the imaginary number).  Well, we
+can translate each of the pieces as follows:
+
+  .. list-table::
+     :header-rows: 1
+     :widths: 25 5 30
+
+     * - Math name 
+       - :math:`\rightarrow`
+       - Comp name
+     * - :math:`\displaystyle b_i`
+       - :math:`\rightarrow`
+       - ``b[i]``
+     * - :math:`\displaystyle 3i^2 - 4i + 2`
+       - :math:`\rightarrow`
+       - ``3*i**2 - 4*i + 2``
+     * - :math:`\displaystyle {\rm for}~~ 0\leq i < 8`
+       - :math:`\rightarrow`
+       - ``for i in range(8)``
+
+We know how many elements there are, and we can apply the specified
+rule **for** each element in ``b``, i.e., use a for loop. Therefore
+the above mathematical sequence would be stored in an array using::
+
+  for i in range(8):
+      b[i] = 3*i**2 - 4*i + 2
+
+*Note how similar the mathematical formula and the programmed version
+are!* In actual fact, when implementing in Python we also have one
+additional step to do, namely *initializing* the array.  We can make
+an "empty" array of zeros, and also define a single variable *N* to
+refer to the size/length in the several places it is used::
+
+  N = 8
+  b = np.zeros(N)
+
+  for i in range(N):
+      b[i] = 3*i**2 - 4*i + 2
+
+The key feature of both arrays and "for" loops is that there is that
+the length/size of each are known. Thus, it is straightforward to
+traverse all the elements in an array with the index values from the
+"for" loop.  Any time one is creating arrays of sequences or other
+values with a formula based on index, relatable to one and even with
+other types of formulas, a "for" loop is likely to be the best thing
+to implement.
+
+``for``: more with arrays
+--------------------------------------------------------------------------
+
+This convenient pairing of arrays with for loops applies generally to
+arrays of any size/shape.  Consider a 2D matrix **M** with 3 rows and
+5 columns; it is made up of elements :math:`\displaystyle M_{i,j} ~~
+{\rm for}~~ 0\leq i < 3, ~0\leq j < 5`.  Well, if we want to go
+through each *row*, we can generate those indices with ``for i in
+range(3):``.  And if we want to go through each *column*, we can
+generate those indices with ``for j in range(5):``.  However, if we
+just code something like:
+
+  .. code-block:: python
+
+     for i in range(3):
+         print("i =", i)
+     for j in range(5):
+         print("j =", j)
+
+then we will just see the 3 row indices and 5 column indices.  We want
+the full, :math:`\displaystyle 3 \times 5 = 15` *pairs* of indices,
+like ``(0, 0)``, ``(0, 1)``, ``(0, 2)``, etc.  That is, we want to
+loop through each row index and *for each* row, generate *each* of the
+column indices. This is done by putting one ``for`` loop inside of the
+other, as 
+
+  .. code-block:: python
+ 
+     for i in range(3):
+         for j in range(5):
+             print("i, j =", i, j)
+
+Placing one "for" loop inside another is called a **nested "for"
+loop**, and the above prints out the fifteen pairs of indices that
+would be each of :math:`\displaystyle M_{i,j}`'s values:
+
+   .. code-block:: none
+
+      i, j = 0 0
+      i, j = 0 1
+      i, j = 0 2
+      i, j = 0 3
+      i, j = 0 4
+      i, j = 1 0
+      i, j = 1 1
+      i, j = 1 2
+          ...
+
+etc.  Now that we know how to use nested "for" loops to generate the
+indices, we could use these to assign values to each matrix element
+according to some rule, such as
+
+   :math:`\displaystyle M_{i,j} = 5i + j, ~~{\rm for}~~ 0\leq i < 3,
+   ~0\leq j < 5`,
+
+which can be translated to:
+
+  .. code-block:: python
+ 
+     M = np.zeros((3, 5),  dtype=int)
+
+     for i in range(3):
+         for j in range(5):
+             M[i, j] = 5 * i + j
+     print(M)
+
+producing:
+
+  .. code-block:: python
+
+
+     [[ 0   1   2   3   4] 
+      [ 5   6   7   8   9] 
+      [10  11  12  13  14]]
+
+While that shows the close relation to the mathematical form,
+programmatically we might prefer to write it in a more generalizable
+manner:
+
+  .. code-block:: python
+ 
+     Nrow = 3
+     Ncol = 5
+     M = np.zeros((Nrow, Ncol),  dtype=int)
+
+     for i in range(Nrow):
+         for j in range(Ncol):
+             M[i, j] = Ncol * i + j
+
+In this way, we only have to set the "shape" variables once.  If we
+want a larger/smaller matrix now, we just have to change any dimension
+once, and everything adjusts appropriately.
+
+And importantly, this combination of for loops with arrays generalizes
+to an array with any number of dimensions.
+
+``for``: more range syntax
+--------------------------------------------------------------------------
+
+The above examples all specified intervals of the loop index starting
+from 0, by including a single argument to be the "stop" value.
+However, ``range`` can take up to three arguments, changing the
+"start" and "step" as well.  The syntax mirrors that of ``np.arange``
+presented :ref:`here <week2_arrays_arange_linspace>`, and in typical
+Python style the interval is half open, specified as ``[start,
+stop)``.  One can verify the following cases:
+
+  .. code-block:: python
+
+     list(range(10))          # def: start = 0, step = 1
+     list(range(4, 12))       # def: step = 1
+     list(range(3, 15, 2)) 
+
+  These yield the following, respectively::
+
+    [0, 1, 2, 3, 4, 5, 6]
+    [4, 5, 6, 7, 8, 9, 10, 11]
+    [3, 5, 7, 9, 11, 13]
+
+
+
+**more to come...**
+
+
+Practice (various topics)
+-------------------------
+
+Firstly, you can download :download:`this PDF of practice questions
+<media/prac_prob_01.pdf>`.
+
+1. Make an array whose values are :math:`P = \cos(3\pi t)`, for
+   :math:`t \in [-5,5]`. Also make an array whose values are :math:`Q =
+   \sin(5.5\pi t)`, for :math:`t \in [-5,5]`.
+
+   Plot:  P vs t and Q vs t on the same graph.
+
+   Plot:  on a separate graph, P vs Q.
+
+#. Make a list of your name, the name of the person to your left and
+   right, and then sort the list alphabetically.
+
+#. How many four-digit numbers are divisible by both 3 and 7?
+
+#. Across *all* positive integers, what is the 1000th number divisible
+   by both 3 and 7 but not by either 14 or 9 (e.g., 21 would be
+   counted, but not 42)?
+
+#. Write a code block that prints all the factors of a positive integer.
+
+#. The digit 8 appears: once in 8, twice in 88, and twice
+   in 828. Write a program to calculate the number of times the digit
+   8 appears in numbers in the interval [1000, 9999].
+
+#. Ask the user for an integer between 77 and 88 (inclusively); to get
+   input from the user, you can use the basic python command raw
+   input(). If they do, say "Thanks!" and finish. If they don't, then
+   have the prompt repeated until they do.
+
+Write a function to do each of the following:
+
+3. Print "Nanga def?"
+
+#. Calculate the geometric area of a rectangle from an input length and
+   width.
+
+#. Have the user input two numbers, an "x" value, and a "sigma" value
+   (whose default is 1).  Calculate the value G(x, sigma), where G is
+   Gaussian function.
+
+#. Output +1 if an input number is even, -1 one if it is odd,
+   0 if it is zero, and -7 if the number is not an int.

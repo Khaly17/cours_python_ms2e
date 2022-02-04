@@ -1,0 +1,344 @@
+:tocdepth: 2
+
+.. _week3_format_str:
+ 
+Formatting strings
+===================================================
+
+.. contents:: :local:
+
+.. highlight:: python
+
+Placing data into strings
+---------------------------------------------------------------------------
+
+Often we want to display results of our work at several points in a
+program: in the middle of calculations to check the code's progress
+and/or to see that intermediate results are running; at the end to
+display the final results. Additionally, we might want to make labels
+for plotting, or save data to an output file for further use. To do
+this, we have to fully understand *what* we are outputting (the type,
+length/shape of object, etc.).  Then decisions have to be made like how
+many decimal places to display, how to include text describing what
+each number is in many cases, how to make aligned columns of results,
+etc.  This all comes under the category of **string formatting**:
+inserting the quantities of interest into strings and specifying what
+display properties it should have.
+
+Up until this point, we have been printing strings very simply to
+display data (as described :ref:`here <week1_comm_str_print_print>`),
+separating strings with commas:
+
+  .. code-block::  python
+
+     print("Finished.")
+     print("x =", x)
+     print("Avec =", A, " and Bvec =", B)
+
+etc.  We now look at more interesting ways to insert data into strings
+and format the results.
+
+There are different methods and styles for performing this kind of
+operation in Python, but we will primarily use the modern "string
+format method".
+
+The help file for strings contains a ``.format()`` method with both
+positional and keyword arguments.  Therefore for a given string ``S``,
+we can apply ``.format()`` as follows to obtain a new string:
+
+  .. code-block:: python
+
+     format(...)
+       S.format(*args, **kwargs) -> str
+      
+       Return a formatted version of S, using substitutions from args and kwargs.
+       The substitutions are identified by braces ('{' and '}').
+
+The basic approach for this is to write a string with place-holders
+for values specified using curly brackets ``{ }``, and then providing
+the values themselves as arguments.  The values can be either
+variables or expressions to be evaluated.  For example:
+
+  .. code-block::  python
+
+     x = 5
+     print("x = {}".format(x))
+
+     y = -15.5
+     print("if y = {}, then 5-y = {}".format(y, 5-y))
+
+     Avec = np.arange(3)
+     Bvec = np.ones(2, dtype=bool)
+     print("Avec = {} and Bvec = {}".format(Avec, Bvec))
+
+produces:
+
+  .. code-block::  none
+
+     x = 5
+     if y = -15.5, then 5-y = 20.5
+     Avec = [0 1 2] and Bvec = [ True  True]
+
+
+In general, if we have *N* values to insert, we will reserve *N*
+spaces in string with curly brackets ``{ }``.
+
+Formatting data in strings
+---------------------------------------------------------------------------
+
+Above, we have specified how to place values directly into a string.
+We now discuss how to format it with various contents of the curly
+brackets ``{ }``, controlling things like spacing, alignment, number
+of decimal places and even ordering.
+
+Ordering of variables
+##########################################################################
+
+By default, the values inserted into the string are placed by order of
+position.  If we want to, it is possible to specify indices of the
+argument positions inside the curly brackets, in order to change
+around the order of placement in the string or even to repeat values.
+Consider:
+
+  .. code-block::  python
+
+     xval, yval = 45.80000, -99
+     print("first = {0}, last = {1}".format(xval, yval))
+     print("first = {1}, last = {0}".format(xval, yval))
+     print("first = {0}, again = {0}, more (??) = {0}, last = {1}".format(xval, yval))
+
+which produces
+
+  .. code-block::  none
+
+     first = 45.8, last = -99
+     first = -99, last = 45.8
+     first = 45.8, again = 45.8, more (??) = 45.8, last = -99
+
+Notice how the order is specified in each case and the output.  We can
+also see that even though ``xval`` is a float specified to 5 decimal
+places, the Python interpreter has only specified one place.  The next
+section shows how to control that.
+
+Control characters
+##########################################################################
+
+We can control several aspects of spacing and decimal values using
+**control** characters. These are also specified in the curly
+brackets, but follow a colon ``:``.  Consider:
+
+  .. code-block::  python
+
+     import numpy as np
+
+     print("PI is approx: {}".format(np.pi))
+     print("PI is approx: {:.3f}".format(np.pi))
+     print("PI is approx: {:.7f}".format(np.pi))
+     print("PI is approx: {:.25f}".format(np.pi))
+
+which produces
+
+  .. code-block::  none
+
+     PI is approx: 3.14159265359
+     PI is approx: 3.142
+     PI is approx: 3.1415927
+     PI is approx: 3.1415926535897931159979635
+
+Thus, the ``:f`` specifies that the value is to be treated as a
+``float``, and one can also specify the number of decimal places, such
+as 7 with ``:0.7f`` or ``:.7f``.  Note that the output is *rounded* to
+that value, not just truncated.  As further examples, consider:
+
+  .. code-block::  python
+
+     xval, yval = 45.80000, -99
+     print("first = {0}, last = {1}".format(xval, yval))
+     print("first = {0:f}, last = {1:f}".format(xval, yval))
+     print("first = {0:0.8f}, last = {1:f}".format(xval, yval))
+     print("first = {0:0.8f}, last = {1:0.8f}".format(xval, yval))
+     print("first = {0:e}, last = {1:e}".format(xval, yval))
+     print("first = {0:0.8e}, last = {1:0.8e}".format(xval, yval))
+
+which produces
+
+  .. code-block::  none
+
+     first = 45.8, last = -99
+     first = 45.800000, last = -99.000000
+     first = 45.80000000, last = -99.000000
+     first = 45.80000000, last = -99.00000000
+     first = 4.580000e+01, last = -9.900000e+01
+     first = 4.58000000e+01, last = -9.90000000e+01
+
+Thus, the ``:f`` specifies that the value is to be treated as a
+``float``, and one can also specify the number of decimal places, such
+as 8 with ``:0.8f`` or ``:.8f``.  
+
+The ``:e`` specifies "exponentiated" representation, and also takes an
+argument for a number of decimal places to include.
+
+The number to the left of the decimal specifies how many spaces should
+be placed to the left of a decimal point.  One can use this to align
+numbers at a decimal point.  For example, consider the two outputs in
+this case with/without using this:
+
+  .. code-block::  python
+
+     C = np.array([-18.5, 300.1234, 0.1, 99.9999999])
+     N = len(C)
+     print("Without 'left' spacing:")
+     for i in range(N):
+         print("val [{0}] --> {1}".format(i, C[i]))
+
+     print("\nWith 'left' spacing")
+     for i in range(N):
+         print("val [{0}] --> {1:15.8f}".format(i, C[i]))
+
+
+which produces
+
+  .. code-block::  none
+
+     Without 'left' spacing:
+     val [0] --> -18.5
+     val [1] --> 300.1234
+     val [2] --> 0.1
+     val [3] --> 99.9999999
+
+     With 'left' spacing
+     val [0] -->    -18.50000000
+     val [1] -->    300.12340000
+     val [2] -->      0.10000000
+     val [3] -->     99.99999990
+
+|
+
+**table to be filled in**
+
+  .. list-table::
+     :header-rows: 1
+     :widths: 10 50
+
+     * - Control character 
+       - description
+     * - ``f``
+       - 
+     * - ``e``
+       -
+     * - ``d``
+       -
+     * - ``s``
+       -
+
+
+
+.. NTS:
+
+   + note that all this applies to strings, we we are just printing;
+     also can save these things as strings to use, e.g., in labels
+
+   + also have repr() as well as str(), useful for the string
+     *computational* representation itself, not the translation of the
+     string
+
+
+
+Whitespace and escape characters
+##########################################################################
+
+.. NTS: move this section earlier
+
+Spacing can be controlled in several ways.  The following are all
+examples of white space:
+
+  .. code-block::  python
+
+     print("Whitespace example with all spaces inserted")
+     print("Whitespace example with 2 \t\t tabs inserted")
+     print("Whitespace example with a \n newline char inserted")
+
+  .. code-block::  none
+
+     Whitespace example with all spaces inserted
+     Whitespace example with 2 		 tabs inserted
+     Whitespace example with a 
+      newline char inserted
+
+Note that ``\t`` and ``\n`` are actually treated as a *single*
+character.  You can see this by checking the length of a string:
+
+  .. code-block::  python
+
+     print(len("abc d"))
+     print(len("abc\td))
+     print(len("abc\nd"))
+
+which is 5 in each case.  The backslash ``\`` in this (and most)
+contexts is an **escape character** that alters the typical
+interpretation of the character following it.  Thus, ``abc\td`` has
+different interpretation than ``abctd``; we say that ``\t`` is an
+**escape sequence** (typically just the escape and the character
+following it).
+
+Sometimes the escape character ``\`` is used to make a "normal"
+character signify something else (such as ``\t``, and sometimes it is
+used to escape the behavior of a "special" character.  As an example
+of the latter, consider what the following prints as:
+
+  .. code-block::  python
+
+     print("The backslash looks like: \")
+
+It actually leads to a syntax error, because Python wants to interpret
+the slash as escaping whatever follows it, and the second quotation
+marks ``"`` are excaped, and don't pair up to close the string
+anymore.  One can actually use the escape character itself to escape
+the escape character's escaping behavior:
+
+  .. code-block::  python
+
+     print("The backslash looks like: \\")
+
+Escapade successful.
+
+
+  .. list-table::
+     :header-rows: 1
+     :widths: 10 50
+
+     * - Whitespace character 
+       - description
+     * - ``' '``
+       - space
+     * - ``'\t'``
+       - tab character
+     * - ``'\n'``
+       - newline character
+
+
+
+.. ex:
+
+  .. code-block:: python
+
+     # Ex. module:  my_module.py
+     # Version   :  1.0
+     # Date      :  Jan. 31, 2021
+
+     xval = 10
+
+     def f_hello():
+         print("Hello!")
+
+  :download:`prog_file_00.py <media/prog_file_00.py>`
+
+
+
+  .. list-table::
+     :header-rows: 1
+     :widths: 100
+
+     * - File **prog_file_00.py**: 
+     * - .. literalinclude:: media/prog_file_00.py
+            :linenos:

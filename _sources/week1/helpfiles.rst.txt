@@ -1,0 +1,28 @@
+:tocdepth: 2
+
+.. _week1_helpfiles:
+
+Reading help files
+===================
+
+.. contents:: :local:
+
+.. highlight:: python
+
+**add**
+
+.. notes to self:
+
+   + help(FUNC_NAME), np.info(FUNC_NAME), FUNC_NAME?
+
+   + typical structure: top usage, inputs and outputs given, examples
+     at bottom:
+
+   + how to search help file
+
+   + notation for necessary and optional arguments
+
+   + define args and kwargs (key word args)
+
+   + good examples of helpfiles: np.zeros and np.arange, because they
+     have the different types of kwargs and args mixed together

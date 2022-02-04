@@ -1,0 +1,143 @@
+:tocdepth: 2
+
+.. _week3_importing:
+ 
+Making and importing our own modules
+===================================================
+
+.. contents:: :local:
+
+.. highlight:: python
+
+Modules and modularity 
+---------------------------------------------------------------------------
+
+We have seen the utility of importing modules in Python.  This allows
+us to have a lot of related functions and functionality stored in one
+place, which we can access all at once by importing into our own
+program, notebook, etc.  Separating a project into smaller pieces of
+related items is referred to as **modularity**.  Designing one's work
+in this way is extremely useful as projects get larger, more
+complicated and/or involve more people.
+
+Python itself is organized this way from the highest levels.  Not all
+functions just exist in the Python environment-- they are located in
+separate modules.  For example, we have used the NumPy module quite
+often, importing it with::
+
+  import numpy as np
+
+and then calling functions contained in it with ``np.sin(...)``,
+``np.log10(...)``, ``np.random.randint(...)``, etc.
+
+Ultimately, a module is just a file (or set of files) containing the
+definitions of the functions and other objects.  "Installing" modules
+when setting up Python typically just means putting those files
+somewhere in Python's system path where they can be found directly.
+
+There are many reasons why we might want to make our own module of
+functions, constants and other objects.  For example:
+
+* We might want to use the same functions in different programs of our
+  own, and it is easier to have a function in just one file to
+  maintain/update/fix rather than trying to remember to make the same
+  changes across several copies.
+
+* We might be working on a collaborative project, and share the
+  defined objects with other people.
+
+* If there are a lot of functions, having a separate file of
+  definitions keeps the file/notebook where we are calling the
+  functions much smaller and more readable.
+
+In general, as one works on larger projects, one finds that having
+"general definitions" stored together on their own, separately from
+"specific usages" (calling functions, making intermediate variables,
+etc.), very useful.  
+
+Making a module in Python
+---------------------------------------------------------------------------
+
+At its most basic, one can make a module just by putting some
+definitions and/or assignments in a file.  Then, in any file located
+in the same directory as the module file, one can import it using the
+name of file.
+
+For example, we can construct a file called "my_module.py" (it must
+end with the extension ".py), which contains the following lines:
+
+  .. code-block:: python
+
+     # Ex. module:  my_module.py
+     # Version   :  1.0
+     # Date      :  Jan. 31, 2021
+
+     xval = 10
+
+     def f_hello():
+         print("Hello!")
+
+Then in any Python file, notebook or environment in the same directory
+we can type a standard import command, just like what is used for
+NumPy or Matplotlib, with some appropriate abbreviation:
+
+  .. code-block:: python
+        
+     import my_module as mm
+
+(noting that the ".py" extension of the file name is not included in
+the ``import`` command; it is assumed by Python).  After that, in the
+program we can make use of the ``xval`` and function ``f_hello()`` by
+calling them as:
+
+  .. code-block:: python
+
+     print("the imported value is:", mm.xval)
+     
+     mm.f_hello()
+
+*Ta da!*
+
+
+**Example files to import**
+---------------------------------------------------------------------------
+
+There are a couple of points about importing a file as a module. One
+can organize the file to import some contents (like general
+definitions, constants, etc.) while ignoring some others (specific
+usage, tests, intermediate quantities).  This is done most directly by
+using a special variable defined by the Python interpreter called
+``__name__`` (yes, note the multiple underscores).
+
+Basically, the Python interpreter will define ``__name__`` to be
+``__main__`` when running/executing a file directly; however, when
+importing a module, it will make it the module's name.  Therefore,
+this differentiation can be used to place some lines of code that we
+want run *only* when executing the file but *not* when importing it,
+via an "if" condition.  See the difference between importing each of
+the following files:
+
+
+You can download the displayed program examples here:
+
+* :download:`prog_file_00.py <media/prog_file_00.py>`
+
+* :download:`prog_file_01.py <media/prog_file_01.py>`
+
+Echoed text of the files:
+
+  .. list-table::
+     :header-rows: 1
+     :widths: 100
+
+     * - File **prog_file_00.py**: 
+     * - .. literalinclude:: media/prog_file_00.py
+            :linenos:
+
+  .. list-table::
+     :header-rows: 1
+     :widths: 100
+
+     * - File **prog_file_01.py**: 
+     * - .. literalinclude:: media/prog_file_01.py
+            :linenos:

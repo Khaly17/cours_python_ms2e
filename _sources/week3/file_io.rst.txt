@@ -1,0 +1,60 @@
+:tocdepth: 2
+
+.. _week3_file_io:
+ 
+Reading and writing files
+===================================================
+
+.. contents:: :local:
+
+.. highlight:: python
+
+Writing files
+---------------------------------------------------------------------------
+
+
+Example to download here:
+
+* :download:`do_make_testfile.py <media/do_make_testfile.py>`
+
+
+Reading files
+---------------------------------------------------------------------------
+
+
+
+  .. code-block:: python
+
+     fname = <some file name>
+
+     fff = open(fname, 'r')
+     x = fff.readlines()
+     fff.close()
+
+     # and we investigate in class more about the format...
+
+
+.. ex:
+
+  .. code-block:: python
+
+     # Ex. module:  my_module.py
+     # Version   :  1.0
+     # Date      :  Jan. 31, 2021
+
+     xval = 10
+
+     def f_hello():
+         print("Hello!")
+
+  :download:`prog_file_00.py <media/prog_file_00.py>`
+
+
+
+  .. list-table::
+     :header-rows: 1
+     :widths: 100
+
+     * - File **prog_file_00.py**: 
+     * - .. literalinclude:: media/prog_file_00.py
+            :linenos:

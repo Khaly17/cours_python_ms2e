@@ -1,0 +1,24 @@
+
+.. _intro_overview:
+
+Overview
+========
+
+.. contents:: :local:
+
+
+.. add later
+    **ADD**
+
+    * course/webpage organization: go through several main
+      features/topics, to be familiar with basics of each and how they
+      interact, and then revisit each one later in more detail.  Iterating
+      between practice <-> theory.
+
+    * note about copy+pasting from green terminals, thinking about
+      beforehand.
+
+    * several practice examples for users, with expandable answers to
+      self-quiz throughout.  If something doesn't make sense, ponder more
+      about about, discuss with others and ask a question!
+
